@@ -1,0 +1,420 @@
+/**
+ * ==========================================
+ *   General
+ * ==========================================
+ */
+.App {
+    font-family: sans-serif;
+    text-align: center;
+    transition: all 0.2s;
+}
+html, body {
+  height: 100vh;
+  width: 100vw;
+}
+
+.main {
+  background-color: #fefeff;
+  color: #514B64;
+  min-height: calc(100vh - 27px);
+}
+
+.app-text {
+  color: #514B64;
+}
+
+form .btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+form .btn-info:focus {
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+}
+
+.btn:disabled:hover {
+  cursor: default;
+}
+
+.col-xs-4, .col-xs-8 {
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+@media (min-width: 576px) {
+  .col-xs-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+}
+
+@media (min-width: 576px) {
+  .col-xs-8 {
+      flex: 0 0 66.666667%;
+      max-width: 66.666667%;
+  }
+}
+
+
+/**
+ * ==========================================
+ *   Login
+ * ==========================================
+ */
+.login {
+  padding: 80px 0;
+  min-width: 300px;
+  width: 40%;
+}
+
+.login form {
+  width: 100%;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 4px;
+  color: #505e6c;
+}
+
+.error-text {
+  color: rgb(235, 98, 98)
+}
+
+.login .login-logo {
+  text-align: center;
+  padding: 0 0 20px;
+  font-size: 100px;
+  color: rgb(69, 131, 175);
+  font-family: Lato,Helvetica,Arial,"sans-serif";
+  letter-spacing: 2px;
+}
+
+.login form .form-control {
+  background: #f7f9fc;
+  border: none;
+  border-bottom: 1px solid #dfe7f1;
+  border-radius: 0;
+  box-shadow: none;
+  color: inherit;
+  text-indent: 8px;
+  height: 42px;
+}
+
+.login form .form-control:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+.login form .forgot {
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  color: #6f7a85;
+  opacity: 0.9;
+  text-decoration: none;
+}
+
+.login form .forgot:hover, .login form .forgot:active {
+  opacity: 1.0;
+  text-decoration: none;
+}
+
+.login button {
+  background-color: rgb(57,140,201);
+}
+
+.login button:hover {
+  background-color: rgb(51, 128, 184);
+}
+
+
+/**
+ * ==========================================
+ *   Navbar
+ * ==========================================
+ */
+.navbar {
+  height: 27px;
+}
+
+.nav-btn {
+  color: #514B64;
+  opacity: 0.5;
+  transition: all 0.7s;
+  font-size: 1rem;
+  font-family: Lato,Helvetica,Arial,"sans-serif";
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.nav-btn:hover {
+  color: #514B64;
+  opacity: 1.0;
+  font-size: 1.01rem;
+}
+.navbar-brand {
+  font-size: 1.25rem;
+}
+
+.navbar-brand:hover {
+  font-size: 1.255rem;
+}
+
+
+/**
+ * ==========================================
+ *   Progress bar
+ * ==========================================
+ */
+.progress-bar-striped-custom {
+  background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+}
+.progress {
+  max-width: 25vw;
+  margin: auto auto;
+}
+
+
+/**
+ * ==========================================
+ *   Circle buttons
+ * ==========================================
+ */
+.btn-circle.btn-sm { 
+  width: 30px; 
+  height: 30px; 
+  padding: 6px 0px; 
+  border-radius: 15px; 
+  font-size: 8px; 
+  text-align: center; 
+} 
+.btn-circle.btn-md { 
+  width: 50px; 
+  height: 50px; 
+  padding: 7px 10px; 
+  border-radius: 25px; 
+  font-size: 10px; 
+  text-align: center; 
+} 
+.btn-circle.btn-xl { 
+  width: 90px; 
+  height: 90px; 
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%; 
+  font-size: 18px; 
+  text-align: center; 
+} 
+.timer-on {
+  font-weight: bold;
+}
+
+
+/*
+* ==========================================
+*   Log form
+* ==========================================
+*/
+
+.MuiFormControl-root {
+  width: unset;
+}
+
+.log-form .MuiFormControl-root {
+  width: 100%;
+}
+
+
+/*
+* ==========================================
+*   Tables
+* ==========================================
+*/
+
+.table {
+  transition: all 0.2s;
+}
+
+.table-hover tr:hover {
+  transition: background-color .25s ease-in-out;
+}
+
+#logTable td {
+  color: #514B64;
+  font-weight: bold;
+}
+
+.table span {
+  color: #514B64;
+}
+
+.table td {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.table th {
+  cursor: pointer;
+  text-align: center;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.table .empty-cell {
+  font-style: italic;
+  color: darkgray;
+  cursor: default;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.sort-icon:after {
+  float: right;
+  color: hsl(20, 0%, 70%);
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.sort-icon.sort-ascending:after  { content: '\f0de'; }
+.sort-icon.sort-descending:after { content: '\f0dd'; }
+.sort-icon.sort-none:after  { content: '\f0dc'; }
+
+.pagination>.active>a, 
+.pagination>.active>a:focus, 
+.pagination>.active>a:hover, 
+.pagination>.active>span, 
+.pagination>.active>span:focus, 
+.pagination>.active>span:hover {
+  z-index: 2;
+  color: #fff;
+  cursor: default;
+  background-color: #17a2b8;
+  border-color: #0275d8;
+}
+
+.pagination>.disabled>a, 
+.pagination>.disabled>a:focus, 
+.pagination>.disabled>a:hover, 
+.pagination>.disabled>span, 
+.pagination>.disabled>span:focus, 
+.pagination>.disabled>span:hover {
+  color: #818a91;
+  cursor: not-allowed;
+  background-color: #fff;
+  border-color: #ddd;
+}
+
+.pagination>li>a:focus, 
+.pagination>li>a:hover, 
+.pagination>li>span:focus, 
+.pagination>li>span:hover {
+  color: #014c8c;
+  background-color: #eceeef;
+  border-color: #ddd;
+}
+
+#logTable li a {
+  position: relative;
+  display: block;
+  padding: .5rem .75rem;
+  margin-left: -1px;
+  line-height: 1.25;
+  border: 1px solid #dee2e6;
+}
+
+#logTable table {
+  padding: 1.5rem;
+  height: 100%;
+  box-shadow: 2px 2px 2px rgba(0,0,0,0.1), -1px 0 2px rgba(0,0,0,0.05);
+  border-radius: .25rem;
+  background-color: #fff;
+}
+
+#logTable .row label {
+  font-weight: bold;
+}
+
+#logTable td, #logTable th {
+  border-right-width: 0px;
+  border-left-width: 0px;
+}
+
+span[title='Edit'] .Mui-disabled {
+  display: none;
+} 
+
+button.MuiIconButton-root {
+  margin-left: auto;
+}
+
+.MuiFormHelperText-root.Mui-error {
+  position: fixed;
+  margin-top: 0px;
+}
+
+
+/**
+ * ==========================================
+ *   Charts
+ * ==========================================
+ */
+
+.top-3:hover {
+  text-decoration: none;
+}
+
+
+/**
+ * ==========================================
+ *   Alerts
+ * ==========================================
+ */
+
+.flash {
+  position: fixed;
+  margin: 0 auto;
+  padding: 15px;  
+  width: 50%;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.create-activity-container {
+  width: 100%;
+  border-radius: 4px;
+  background-color:lightgrey;
+  text-align: center;
+  display: inline-block;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.create-activity-button {
+  width: 99%;
+  border-radius: 4px;
+  display: block;
+  text-align: center;
+  transition: all 0.2s;
+  margin: auto;
+}
+
+
+
+
+
