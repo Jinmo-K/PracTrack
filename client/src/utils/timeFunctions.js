@@ -1,7 +1,7 @@
 /**
  * Takes time in ms and returns as string in hours and minutes
- * @param  {Number} ms The time in ms
- * @return {String}    The time formatted as '_ hrs _ min _ sec '
+ * @param  {number} ms The time in ms
+ * @return {string}    The time formatted as '_ hrs _ min _ sec '
  */
 export function msToHrsMinSec(ms) {
   const timeInHrs = ms / 3600000;
@@ -16,8 +16,8 @@ export function msToHrsMinSec(ms) {
 
 /**
  * Takes time in ms and returns as string stopwatch format hh:mm:ss
- * @param  {Number} ms The time in ms
- * @return {String}    The time formatted as '_ hrs _ min _ sec '
+ * @param  {number} ms The time in ms
+ * @return {string}    The time formatted as '_ hrs _ min _ sec '
  */
 export function msToStopwatch(ms) {
   const timeInHrs = ms / 3600000;

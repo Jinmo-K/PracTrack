@@ -15,7 +15,8 @@ const handleAsyncError = require('../../middleware/handleAsyncError');
  */
 router.get('/', passport.authenticate('admin', { session: false }), handleAsyncError(async (req, res) => {
   res.json(await Activity.find({}));
-}));
+  })
+);
 
 
 /**
@@ -23,8 +24,16 @@ router.get('/', passport.authenticate('admin', { session: false }), handleAsyncE
  * @desc Retrieve specified activity
  * @access Private
  */
-router.get('/:activityId', passport.authenticate('activityOwner', { session: false }), handleAsyncError(async (req, res) => {
-  res.json(await Activity.findById(req.params.activityId));
+router.get('/:activityId', passport.authenticate('user', { session: false }), handleAsyncError(async (req, res) => {
+    let activity = await Activity.findById(req.params.activityId);
+    if (!activity) {
+      return res.status(404).json({message: 'Activity not found'});
+    }
+    // Not the activity owner
+    else if (activity.userId.toString() !== req.user._id.toString()) {
+      return res.status(401).send();
+    }
+    res.json(activity);
 }));
 
 
@@ -33,13 +42,16 @@ router.get('/:activityId', passport.authenticate('activityOwner', { session: fal
  * @desc Update specified activity
  * @access Private
  */
-router.put('/:activityId', passport.authenticate('activityOwner', { session: false }), handleAsyncError(async (req, res) => {
-  const updatedActivity = await Activity.findByIdAndUpdate(
-                            req.params.activityId,
-                            { ...req.body },
-                            { new: true }
-                          );
-  res.json(updatedActivity);
+router.put('/:activityId', passport.authenticate('user', { session: false }), handleAsyncError(async (req, res) => {
+  let activity = await Activity.findById(req.params.activityId);
+  if (!activity) {
+    return res.status(404).json({message: 'Activity not found'});
+  }
+  else if (activity.userId.toString() !== req.user._id.toString()) {
+    return res.status(401).send();
+  }
+  Object.assign(activity, req.body);
+  res.json(await activity.save());
 }));
 
 
@@ -69,9 +81,16 @@ router.get('/:activityId/logs', passport.authenticate('activityOwner', { session
  * @desc Create a new log for an activity
  * @access Private
  */
-router.post('/:activityId/logs', passport.authenticate('activityOwner', { session: false }), handleAsyncError(async (req, res) => {
+router.post('/:activityId/logs', passport.authenticate('user', { session: false }), handleAsyncError(async (req, res) => {
+  let activity = await Activity.findById(req.params.activityId);
+  if (!activity) {
+    return res.status(404).json({message: 'Activity not found'});
+  }
+  else if (activity.userId.toString() !== req.user._id.toString()) {
+    return res.status(401).send({message: 'Unauthorized'});
+  }
+  
   const newLog = new Log(req.body);
-
   await newLog.save();
 
   //Add reference to associated activity
