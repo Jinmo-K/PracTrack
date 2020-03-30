@@ -2,15 +2,16 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const keys = require("../../../config/keys");
 const passport = require("passport");
 const User = require('../../models/User.model');
+const Log = require('../../models/Log.model');
+const Activity = require('../../models/Activity.model');
 
 // Modified authentication code from https://github.com/rishipr/mern-auth/
 
 // Load input validation
-const validateRegisterInput = require("../../validation/register");
-const validateLoginInput = require("../../validation/login");
+const validateRegisterInput = require("../../utils/registerValidation");
+const validateLoginInput = require("../../utils/loginValidation");
 
 // Load async wrapper function
 const handleAsyncError = require('../../middleware/handleAsyncError');
@@ -20,7 +21,7 @@ const handleAsyncError = require('../../middleware/handleAsyncError');
  * @desc Register user
  * @access Public
  */
-router.post("/register", (req, res) => {
+router.post("/register", handleAsyncError((req, res) => {
   // Form validation
   const { errors, isValid } = validateRegisterInput(req.body);
   if (!isValid) {
@@ -46,12 +47,12 @@ router.post("/register", (req, res) => {
           newUser
             .save()
             .then(user => res.json(user))
-            .catch(err => console.log(err));
+            .catch(err => res.status(500).json(err));
         });
       });
     }
   });
-});
+}));
 
 
 /**
@@ -59,7 +60,7 @@ router.post("/register", (req, res) => {
  * @desc Login user and return JWT token
  * @access Public
  */
-router.post("/login", (req, res) => {
+router.post("/login", handleAsyncError((req, res) => {
   // Form validation
   const { errors, isValid } = validateLoginInput(req.body);
   if (!isValid) {
@@ -70,10 +71,10 @@ router.post("/login", (req, res) => {
   const password = req.body.password;
 
   // Find user by email
-  User.findOne({ email }).then(user => {
+  return User.findOne({ email }).then(user => {
     // Check if user exists
     if (!user) {
-      return res.status(404).json({ emailnotfound: "Email not found" });
+      return res.status(404).json({ email: "Email not found" });
     }
 
     // Check password
@@ -89,24 +90,25 @@ router.post("/login", (req, res) => {
         // Sign token 
         jwt.sign(
           payload,
-          keys.secretOrKey,
+          process.env.secretOrKey,
           {
             expiresIn: 31556926 // 1 year in seconds
           },
           (err, token) => {
             res.json({
               success: true,
+              userId: user.id,
               token: "Bearer " + token
             });
           }
         );
       } 
       else {
-        return res.status(400).json({ passwordincorrect: "Password incorrect" });
+        return res.status(400).json({ password: "Password incorrect" });
       }
     });
   });
-});
+}));
 
 
 /**
@@ -167,7 +169,7 @@ router.post('/:userId/activities/', passport.authenticate('personal', { session:
       {$push: {activities: newActivity._id}},
       {new: true},
   );
-  res.json(newActivity);
+  return res.json(newActivity);
 }));
 
 
@@ -178,14 +180,22 @@ router.post('/:userId/activities/', passport.authenticate('personal', { session:
  */
 router.delete('/:userId/activities/:activityId', passport.authenticate('personal', { session : false }), handleAsyncError(async (req, res) => {
   const activityId = req.params.activityId;
-  await Activity.findByIdAndDelete(activityId);
+  let activity = await Activity.findByIdAndDelete(activityId);
+  if (!activity) {
+    return res.status(404).json({message: 'Activity not found'});
+  }
+
+  // Delete all of its logs
+  activity.logs.forEach(async (id) => {
+    await Log.findByIdAndDelete(id);
+  })
 
   // Remove from User model
   await User.findOneAndUpdate(
       {_id: req.params.userId},
       {$pull: {activities: activityId}},
   )
-  res.json(`Success: deleted activity ${activityId}`);
+  res.json(activity);
 }));
 
 
