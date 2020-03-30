@@ -56,13 +56,13 @@ const LogForm = ({ data, hideForm, addLog }) => {
           New log for {data.activity.title}
         </ModalHeader>
         <ModalBody>
-          <div className='p-3 justify-content-center'>
+          <div className='p-0 p-sm-2 justify-content-center container'>
             {/* Start time datetime picker */}
-            <div className='form-group row mb-3 align-items-center'>
-              <label className='col-sm-3 h1 lead text-right' htmlFor='startTimeInput'>
+            <div className='form-group row mb-1 mb-sm-3 align-items-center'>
+              <label className='col-12 col-sm-3 text-left h1 lead text-sm-right' htmlFor='startTimeInput'>
                 Start time
               </label>
-              <div className='col-sm-9'>
+              <div className='col-12 col-sm-9'>
                 <DateTimePicker
                   id='startTimeInput'
                   disabled
@@ -73,11 +73,11 @@ const LogForm = ({ data, hideForm, addLog }) => {
             </div>
 
             {/* End time datetime picker */}
-            <div className='form-group row mb-3 align-items-center'>
-              <label className='col-sm-3 h1 lead text-right' htmlFor='endTimeInput'>
+            <div className='form-group row mb-1 mb-sm-3 align-items-center'>
+              <label className='col-12 col-sm-3 text-left h1 lead text-sm-right' htmlFor='endTimeInput'>
                 End time
               </label>
-              <div className='col-sm-9'>
+              <div className='col-12 col-sm-9'>
                 <DateTimePicker
                   id='endTimeInput'
                   autoOk
@@ -105,25 +105,25 @@ const LogForm = ({ data, hideForm, addLog }) => {
             </div>
 
             {/* Duration */}
-            <div className='form-group row mb-3 align-items-center'>
-              <span className='col-sm-3 h1 lead text-right'>
+            <div className='form-group row mb-1 mb-sm-3 align-items-center'>
+              <span className='col-12 col-sm-3 text-left h1 lead text-sm-right'>
                 Duration
               </span>
-              <div className='col-sm-9 h4 app-text'>
+              <div className='col-12 col-sm-9 h4 app-text text-center text-sm-left'>
                 {msToHrsMinSec(duration)}
               </div>
             </div>
 
             {/* Comments input */}
             <div className='form-group row align-items-center'>
-              <label className='col-sm-3 h1 lead text-right' htmlFor='inputComment'>
+              <label className='col-12 col-sm-3 mb-1 mb-sm-3 text-left h1 lead text-sm-right' htmlFor='inputComment'>
                 Comments 
               </label>
-              <div className='col-sm-9 ml-auto'>
+              <div className='col-12 col-sm-9 ml-sm-auto'>
                 <TextField
                   id='inputComment'
                   multiline
-                  rows="5"
+                  rows="4"
                   variant="outlined"
                   {...bindComment}
                 />

@@ -62,10 +62,12 @@ const PieChart = ({ activities, location }) => {
           fillOpacity: 0.3
         },
         options: {
-          responsive: false,
+          responsive: true,
           legend: {
             display: false
           },
+          aspectRatio: 1,
+          maintainAspectRatio: true,
           tooltips: {
             callbacks: {
               title: function (tooltipItem, data) {
@@ -84,11 +86,13 @@ const PieChart = ({ activities, location }) => {
 
   return (
     <div>
-      {(sorted.length)
-        ? <div className='row mt-5 ml-0 mr-0'
-            style={{ 'display': location.pathname === '/' ? 'flex' : 'none' }}>
-            <canvas className='col-s-4 p-4' id="pieChart" width="400" height="200"></canvas>
-            <div className='col-s-8 ml-5 my-auto p-4 bg-white rounded shadow h-100'>
+      {(currTotal > 0)
+        ? <div className='row justify-content-center align-items-center mt-4'
+               style={{ 'display': location.pathname === '/' ? 'flex' : 'none' }}>
+            <div className='col-5 col-sm-5 col-md-4 col-lg-3 col-xl-3-pie p-4 mx-0'>
+              <canvas id="pieChart"></canvas>
+            </div>
+            <div className='col-sm-7 col-md-5 col-lg-4 p-4 ml-3 ml-sm-0'>
               <h3>Your top activities:</h3>
               <ul className='list-group list-group-flush'>
                 {displayTop()}

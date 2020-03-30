@@ -48,73 +48,70 @@ class Register extends Component {
   };
 
   render() {
-    const  errors  = this.state.errors;
+    const errors = this.state.errors;
 
     return (
-      <div className='row justify-content-center'>
-          <div className='login'>
-            <form className='pt-5 mt-5 shadow' noValidate onSubmit={this.onSubmit}>
-              <h2 className='sr-only'>Login form</h2>
-              <div className='login-logo'>
-                <h1>Sign up</h1>
-                <i className='icon ion-ios-navigate'></i>
-              </div>
-
-              <div className='form-group'>
-                <input
-                    onChange={this.onChange}
-                    value={this.state.name}
-                    error={errors.name}
-                    className='form-control' 
-                    id="name"
-                    type="text"
-                    placeholder='Name'
-                />
-                <span className="error-text">{errors.name}</span>
-              </div>
-
-              <div className='form-group'>
-                <input 
-                  onChange={this.onChange}
-                  value={this.state.email}
-                  error={errors.email}
-                  className='form-control' 
-                  type='email' 
-                  id='email'
-                  placeholder='Email' 
-                />
-                <span className="error-text">{errors.email}</span>
-              </div>
-              <div className='form-group'>
-                <input
-                  onChange={this.onChange}
-                  value={this.state.password}
-                  error={errors.password}
-                  className='form-control' 
-                  id="password"
-                  type="password"
-                  placeholder='Password'
-                />
-                <span className="error-text">{errors.password}</span>
-              </div>
-              <div className='form-group'>
-                <input
-                  onChange={this.onChange}
-                  value={this.state.password2}
-                  error={errors.password2}
-                  className='form-control'
-                  id="password2"
-                  type="password"
-                  placeholder='Confirm password'
-                />
-                <span className="error-text">{errors.password2}</span>
-              </div>
-              <div className='form-group'>
-                <button className='btn btn-primary btn-block' type='submit'>Sign up</button>
-              </div>
-              <Link className='forgot' to='/'>ALREADY HAVE AN ACCOUNT? <u>CLICK HERE</u> TO LOGIN</Link>
-            </form>
+      <div className='row justify-content-center login mx-auto'>
+        <form className='col-sm-10 col-md-7 col-lg-5 p-2 p-sm-5 mt-sm-2' noValidate onSubmit={this.onSubmit}>
+          <h2 className='sr-only'>Login form</h2>
+          <div className='login-header'>
+            <h1>Sign up</h1>
           </div>
+
+          <div className='form-group'>
+            <input
+                onChange={this.onChange}
+                value={this.state.name}
+                error={errors.name}
+                className='form-control' 
+                id="name"
+                type="text"
+                placeholder='Name'
+            />
+            <span className="error-text">{errors.name}</span>
+          </div>
+
+          <div className='form-group'>
+            <input 
+              onChange={this.onChange}
+              value={this.state.email}
+              error={errors.email}
+              className='form-control' 
+              type='email' 
+              id='email'
+              placeholder='Email' 
+            />
+            <span className="error-text">{errors.email}</span>
+          </div>
+          <div className='form-group'>
+            <input
+              onChange={this.onChange}
+              value={this.state.password}
+              error={errors.password}
+              className='form-control' 
+              id="password"
+              type="password"
+              placeholder='Password'
+            />
+            <span className="error-text">{errors.password}</span>
+          </div>
+          <div className='form-group'>
+            <input
+              onChange={this.onChange}
+              value={this.state.password2}
+              error={errors.password2}
+              className='form-control'
+              id="password2"
+              type="password"
+              placeholder='Confirm password'
+            />
+            <span className="error-text">{errors.password2}</span>
+          </div>
+          <div className='form-group'>
+            <button className='btn btn-block' type='submit'>Sign up</button>
+          </div>
+          <Link className='forgot' to='/'>ALREADY HAVE AN ACCOUNT? <u>CLICK HERE</u> TO LOGIN</Link>
+        </form>
       </div>
     );
   }

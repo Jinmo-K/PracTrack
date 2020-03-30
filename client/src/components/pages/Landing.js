@@ -22,7 +22,6 @@ class Landing extends Component {
   }
 
   componentDidMount() {
-    // If logged in and user navigates to Login page, should redirect them to dashboard
     if (this.props.auth.isAuthenticated) {
       this.props.history.push("/");
     }
@@ -55,52 +54,47 @@ class Landing extends Component {
     const { errors } = this.state;
 
     return (
-      <div className='row justify-content-center'>
-          <div className='login'>
-            <form className='pt-5 mt-5 shadow' noValidate onSubmit={this.onSubmit}>
-              <h2 className='sr-only'>Login form</h2>
-              <div className='login-logo'>
-                <h1>Login to continue</h1>
-                <i className='icon ion-ios-navigate'></i>
-              </div>
-              <div className='form-group'>
-                <input 
-                  onChange={this.onChange}
-                  value={this.state.email}
-                  error={errors.email}
-                  className='form-control' 
-                  type='email' 
-                  name='email' 
-                  id='email'
-                  placeholder='Email' 
-                />
-                <span className="error-text">
-                  {errors.email}
-                  {errors.emailnotfound}
-                </span>
-              </div>
-              <div className='form-group'>
-                <input 
-                  onChange={this.onChange}
-                  value={this.state.password}
-                  error={errors.password}
-                  className='form-control' 
-                  id='password'
-                  type='password' 
-                  name='password' 
-                  placeholder='Password' 
-                />
-                <span className="error-text">
-                  {errors.password}
-                  {errors.passwordincorrect}
-                </span>
-              </div>
-              <div className='form-group'>
-                <button className='btn btn-primary btn-block' type='submit'>Login</button>
-              </div>
-              <Link className='forgot' to='/register'>DON'T HAVE AN ACCOUNT? <u>CLICK HERE</u> TO SIGN UP</Link>
-            </form>
+      <div className='row justify-content-center login mx-auto'>
+        <form className='col-sm-10 col-md-7 col-lg-5 p-2 p-sm-5 mt-sm-2' noValidate onSubmit={this.onSubmit}>
+          <h2 className='sr-only'>Login form</h2>
+          <div className='login-header'>
+            <h1>Login to continue</h1>
           </div>
+          <div className='form-group'>
+            <input 
+              onChange={this.onChange}
+              value={this.state.email}
+              error={errors.email}
+              className='form-control' 
+              type='email' 
+              name='email' 
+              id='email'
+              placeholder='Email' 
+            />
+            <span className="error-text">
+              {errors.email}
+            </span>
+          </div>
+          <div className='form-group'>
+            <input 
+              onChange={this.onChange}
+              value={this.state.password}
+              error={errors.password}
+              className='form-control' 
+              id='password'
+              type='password' 
+              name='password' 
+              placeholder='Password' 
+            />
+            <span className="error-text">
+              {errors.password}
+            </span>
+          </div>
+          <div className='form-group'>
+            <button className='btn btn-block' type='submit'>Login</button>
+          </div>
+          <Link className='forgot' to='/register'>DON'T HAVE AN ACCOUNT? <u>CLICK HERE</u> TO SIGN UP</Link>
+        </form>
       </div>
     );
   }

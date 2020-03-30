@@ -7,7 +7,7 @@ import jwt_decode from "jwt-decode";
 // Components
 import Landing from "./components/pages/Landing";
 import Register from "./components/pages/user/Register";
-import PrivateRoute from "./components/PrivateRoute";
+import PrivateRoute from "./components/shared/PrivateRoute";
 import Navbar from './components/shared/Navbar';
 import ActivityPage from './components/pages/activity/ActivityPage';
 import ActivitiesList from "./components/pages/dashboard/ActivitiesList";
@@ -87,7 +87,7 @@ class App extends Component {
     return (
         <Router>
             <Navbar />
-            <div className='main'>
+            <div className='container-flex app-text'>
               <div className="container">
                 {/* Flash message */}
                 { (this.state.flashMessage)
@@ -100,21 +100,21 @@ class App extends Component {
                   : null
                 }
                 <AppModal />
-                <div className='row justify-content-center'>
-                  <PieChart />
-                </div>
-                
+                {this.props.auth.isAuthenticated 
+                 && <PieChart />
+                }
                 <Switch>
                   {/* Create activity page route only after componentDidMount runs */}
                   {(this.props.activities.length) 
                     && <PrivateRoute path="/activities/:activityId" component={ActivityPage} />
                   }
                   <PrivateRoute path='/settings' component={Settings} />
-                  <Route path="/register" component={Register} />
+                  
                   {this.props.auth.isAuthenticated 
                     && <Route exact path='/' component={ActivitiesList} />
                   }
                   <Route exact path="/" component={Landing} />
+                  <Route path="/register" component={Register} />
                   <Route component={Landing} />
                 </Switch>
               </div>

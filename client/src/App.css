@@ -3,20 +3,17 @@
  *   General
  * ==========================================
  */
+html {
+  overflow-y: scroll;
+}
+.modal-open {
+  padding-right: 0!important;
+} 
+
 .App {
     font-family: sans-serif;
     text-align: center;
     transition: all 0.2s;
-}
-html, body {
-  height: 100vh;
-  width: 100vw;
-}
-
-.main {
-  background-color: #fefeff;
-  color: #514B64;
-  min-height: calc(100vh - 27px);
 }
 
 .app-text {
@@ -64,26 +61,21 @@ form .btn-info:focus {
  *   Login
  * ==========================================
  */
-.login {
-  padding: 80px 0;
-  min-width: 300px;
-  width: 40%;
-}
 
-.login form {
+/* .login form {
   width: 100%;
   margin: 0 auto;
   background-color: #ffffff;
   padding: 40px;
   border-radius: 4px;
   color: #505e6c;
-}
+} */
 
 .error-text {
   color: rgb(235, 98, 98)
 }
 
-.login .login-logo {
+.login-header {
   text-align: center;
   padding: 0 0 20px;
   font-size: 100px;
@@ -125,12 +117,17 @@ form .btn-info:focus {
   text-decoration: none;
 }
 
-.login button {
+.login button, .login button:focus {
   background-color: rgb(57,140,201);
+  color: #fff;
 }
-
 .login button:hover {
   background-color: rgb(51, 128, 184);
+  color: #fff;
+}
+.login button:active {
+  background-color: rgb(46, 118, 170);
+  color: #fff;
 }
 
 
@@ -139,10 +136,6 @@ form .btn-info:focus {
  *   Navbar
  * ==========================================
  */
-.navbar {
-  height: 27px;
-}
-
 .nav-btn {
   color: #514B64;
   opacity: 0.5;
@@ -175,8 +168,8 @@ form .btn-info:focus {
   background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
 }
 .progress {
-  max-width: 25vw;
-  margin: auto auto;
+  max-width: 350px;
+  /* margin: auto auto; */
 }
 
 
@@ -185,22 +178,6 @@ form .btn-info:focus {
  *   Circle buttons
  * ==========================================
  */
-.btn-circle.btn-sm { 
-  width: 30px; 
-  height: 30px; 
-  padding: 6px 0px; 
-  border-radius: 15px; 
-  font-size: 8px; 
-  text-align: center; 
-} 
-.btn-circle.btn-md { 
-  width: 50px; 
-  height: 50px; 
-  padding: 7px 10px; 
-  border-radius: 25px; 
-  font-size: 10px; 
-  text-align: center; 
-} 
 .btn-circle.btn-xl { 
   width: 90px; 
   height: 90px; 
@@ -244,6 +221,7 @@ form .btn-info:focus {
 .table-hover tr:hover {
   transition: background-color .25s ease-in-out;
 }
+
 
 #logTable td {
   color: #514B64;
@@ -361,8 +339,15 @@ button.MuiIconButton-root {
 }
 
 .MuiFormHelperText-root.Mui-error {
-  position: fixed;
+  position: absolute;
   margin-top: 0px;
+}
+
+.MuiTableSortLabel-icon {
+  display: none;
+}
+.MuiTableSortLabel-root.MuiTableSortLabel-active.MuiTableSortLabel-root.MuiTableSortLabel-active .MuiTableSortLabel-icon {
+  display: inline-block;
 }
 
 
@@ -374,6 +359,13 @@ button.MuiIconButton-root {
 
 .top-3:hover {
   text-decoration: none;
+}
+
+@media (min-width: 1200px) {
+  .col-xl-3-pie {
+      flex: 0 0 25%;
+      max-width: 18%;
+  }
 }
 
 
@@ -412,6 +404,12 @@ button.MuiIconButton-root {
   text-align: center;
   transition: all 0.2s;
   margin: auto;
+}
+.create-activity-button:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+.create-activity-button:focus {
+  outline: none;
 }
 
 
