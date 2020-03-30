@@ -3,6 +3,10 @@ export const GET_ERRORS = "GET_ERRORS";
 export const USER_LOADING = "USER_LOADING";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 
+// User types
+export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
+export const UPDATE_USER_FAILURE = 'UPDATE_USER_FAILURE';
+
 // Activities types
 export const ADD_ACTIVITY_SUCCESS = 'ADD_ACTIVITY_SUCCESS';
 export const ADD_ACTIVITY_FAILURE = 'ADD_ACTIVITY_FAILURE';

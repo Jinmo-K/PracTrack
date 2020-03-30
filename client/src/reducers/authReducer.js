@@ -1,4 +1,8 @@
-import { SET_CURRENT_USER, USER_LOADING } from "../actions/types";
+import { 
+  SET_CURRENT_USER, 
+  USER_LOADING, 
+  UPDATE_USER_SUCCESS 
+} from "../actions/types";
 
 const isEmpty = require("is-empty");
 
@@ -20,6 +24,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         loading: true
+      };
+    case UPDATE_USER_SUCCESS:
+      return {
+        ...state,
+        user: action.user
       };
     default:
       return state;

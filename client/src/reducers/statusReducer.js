@@ -17,6 +17,8 @@ import {
   UPDATE_LOG_FAILURE,
   RESET_GET_LOGS,
   RESET_UPDATE_LOG,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILURE,
 } from '../actions/types';
 
 const LOADING = 'LOADING';
@@ -35,7 +37,8 @@ const initialState = {
   logsError: '',
   updateLog: '',
   updateLogError: '',
-  saveActivity: '',
+  updateUser: '',
+  updateUserError: '',
 }
 
 export default (state = initialState, action) => {
@@ -117,6 +120,16 @@ export default (state = initialState, action) => {
     [RESET_UPDATE_LOG]: {
       updateLog: '',
       updateLogError: ''
+    },
+
+    // User statuses--------------------
+    [UPDATE_USER_SUCCESS]: {
+      updateUser: SUCCESS,
+      updateUserError: ''
+    },
+    [UPDATE_USER_FAILURE]: {
+      updateUser: ERROR,
+      updateUserError: action.error
     },
   }
   return Object.assign({}, state, actionHandlers[action.type]);

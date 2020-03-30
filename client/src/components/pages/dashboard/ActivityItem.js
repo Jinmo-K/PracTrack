@@ -38,7 +38,7 @@ const ActivityItem = ({ activity, userId, history, deleteActivity }) => {
       <td>
         <strong>{activity.title}</strong>
       </td>
-      <td>
+      <td className='d-none d-sm-table-cell'>
         <strong>{msToHrsMinSec(activity.totalDuration)}</strong>
         {(activity.goal)
           && <ProgressBar current={activity.totalDuration} goal={activity.goal * 3600000} showText={false} />

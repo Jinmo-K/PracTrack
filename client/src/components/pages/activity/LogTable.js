@@ -181,13 +181,10 @@ const LogTable = ({ activity, logs, updateLog, deleteLog, updateActivity }) => {
                   setTimeout(() => {
                     {
                       // const oldLog = 
-                      console.log(newData === oldData)
-                      console.log(newData, oldData)
                       if (startError || endError || newData === oldData) {
                         return reject();
                       }
                       const start = moment(newData.start);
-                      console.log(newData.start)
                       const end = moment(newData.end);
                       const duration = end.valueOf() - start.valueOf();
                       const newLog = {

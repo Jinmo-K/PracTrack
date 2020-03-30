@@ -1,0 +1,22 @@
+.MuiTableRow-root.MuiTableRow-hover:hover {
+    background-color: rgba(0,0,0,.075)!important;
+    transition: background-color .25s ease-in-out!important;
+    color: black!important;
+    cursor: default!important;
+}
+
+.MuiTableCell-paddingNone {
+    padding: 16px!important;
+}
+
+.MuiTableCell-root:hover {
+    color: #212529;
+}
+
+button:focus {
+    outline: none!important;
+}
+
+.Mui-focused {
+    opacity: 1.0!important;
+}

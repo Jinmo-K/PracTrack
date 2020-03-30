@@ -4,8 +4,11 @@ import { connect } from "react-redux";
 // Components
 import ActivityItem from './ActivityItem';
 import Loading from '../../shared/Loading';
+import ActivityTable from './ActivityTable';
 // Functions
 import { openNewActivityForm } from '../../../actions/formActions';
+// Styles
+import './ActivitiesList.css';
 
 /** 
  * ============================================
@@ -13,46 +16,26 @@ import { openNewActivityForm } from '../../../actions/formActions';
  * ============================================
  */
 class ActivitiesList extends Component {
-  constructor(props) {
-    super(props);
+  state = { 
+    // For animating the new activity button
+    clicked: ' ',
+  };
 
-    this.state = { 
-      sortKey: 'updated',
-      sortAsc: false,
-    };
+  onClickNewActivity = () => {
+    this.props.openNewActivityForm();
+    this.setState({ clicked: true });
+    setTimeout(() => 
+      this.setState({ clicked: false })
+    , 450);
   }
 
-  displayActivities = () => {
-    const sortKey = this.state.sortKey;
-    const sortedActivities = Array.from(this.props.activities).sort((a, b) => {
-      if (sortKey === 'updated') {
-        let aDate = new Date(a[sortKey]);
-        let bDate = new Date(b[sortKey]);
-
-        if (this.state.sortAsc) {
-          // ascending by date
-          return aDate - bDate;
-        }
-        else {
-          // descending by date
-          return bDate - aDate;
-        }
-      }
-      else { 
-        if (this.state.sortAsc ) {
-          // ascending
-          return a[sortKey] > b[sortKey] ? 1: -1;
-        }
-        else {
-          //descending
-          return a[sortKey] > b[sortKey] ? -1: 1;
-        }
-      }
+  sortActivities = () => {
+    let sortedActivities = Array.from(this.props.activities).sort((a,b) => {
+      let dateA = new Date(a.updated);
+      let dateB = new Date(b.updated);
+      return dateB - dateA;
     });
-    
-    return sortedActivities.map(curr => {
-      return <ActivityItem activity={ curr } key={ curr._id } />;
-    });
+    return sortedActivities;
   }
 
   render() {
@@ -61,33 +44,42 @@ class ActivitiesList extends Component {
     }
 
     return (
-        <div style={{ marginTop: "5%" }}>
-              {(this.props.activities.length) 
-              ? <div>
-                  <table className="table table-hover bg-white p-4 rounded shadow h-100 table-align">
-                    <thead className="thead">
-                      <tr>
-                        <th>Activity</th>
-                        <th>Total</th>
-                        <th className='d-none d-sm-table-cell'>Last updated</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {this.displayActivities()}
-                    </tbody>
-                  </table>
-                  <button className='create-activity-button' onClick={this.props.openNewActivityForm}>
-                    <i className='material-icons'>add_circle</i>
-                  </button> 
-                </div>
-              :
-                <div className='create-activity-container'>Start a new activity
-                  <button className='create-activity-button' onClick={this.props.openNewActivityForm}>
-                    <i className='material-icons'>add_circle</i>
-                  </button>
-                </div>  
-              }
+        <div>
+          {(this.props.activities.length) 
+          ? <ActivityTable activities={this.sortActivities()} />
+          :
+            <div className="text-center pt-5 mt-5 d-flex flex-column justify-content-center align-items-center">
+              <p className='lead mt-5'>
+                No activities yet. Start a new activity to begin!
+              </p>
+              {/* Replicating MaterialTable button */}
+              <button className="mx-0 xMuiButtonBase-root xMuiIconButton-root xMuiIconButton-colorInherit" 
+                      tabIndex="0" 
+                      type="button" 
+                      onClick={this.onClickNewActivity}
+              >
+                <span className="xMuiIconButton-label">
+                  <span className="material-icons xMuiIcon-root fa fa-plus-circle" aria-hidden="true" style={{'color': 'rgb(76, 175, 80)', 'fontSize': '50px'}} />
+                </span>
+                <span className="xMuiTouchRipple-root">
+                  {(this.state.clicked === true)
+                    && <span className="xMuiTouchRipple-ripple xMuiTouchRipple-rippleVisible xMuiTouchRipple-ripplePulsate" 
+                             style={{
+                               'width': '74px', 
+                               'height': '74px', 
+                               'top': '-0.5px', 
+                               'left': '-0.5px'}}
+                        >
+                        <span className="xMuiTouchRipple-child xMuiTouchRipple-childPulsate" />
+                      </span>
+                  }
+                  {(this.state.clicked === false) 
+                    && <span className='xMuiTouchRipple-child xMuiTouchRipple-childLeaving' />
+                  }
+                </span>
+              </button>
+            </div>
+          }
         </div>
     );
   }

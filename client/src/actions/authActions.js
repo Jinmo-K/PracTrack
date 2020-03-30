@@ -4,10 +4,24 @@ import setAuthToken from "../utils/setAuthToken";
 import { 
   GET_ERRORS, 
   SET_CURRENT_USER, 
-  USER_LOADING 
+  USER_LOADING,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILURE,
 } from './types';
+import apiClient from "../utils/apiClient";
 
 // Modified authentication code from https://github.com/rishipr/mern-auth/
+
+const updateUserSuccess = (user) => ({
+  type: UPDATE_USER_SUCCESS,
+  user
+});
+
+const updateUserFailure = (error) => ({
+  type: UPDATE_USER_FAILURE,
+  error
+});
+
 
 // Register User
 export const registerUser = (userData, history) => dispatch => {
@@ -65,3 +79,14 @@ export const logoutUser = () => dispatch => {
   setAuthToken(false);
   window.location.href = '/'
 };
+
+// Update user
+export const updateUser = (userId, values) => (dispatch) => {
+  apiClient.updateUser(userId, values)
+    .then(res => {
+      dispatch(updateUserSuccess(res.data));
+    })
+    .catch(err => {
+      dispatch(updateUserFailure(err.response.data));
+    })
+}

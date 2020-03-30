@@ -38,32 +38,34 @@ const ActivityForm = ({ hideForm, addActivity, userId }) => {
         Create a new activity
       </ModalHeader>
       <ModalBody>
-        <div className='p-3 justify-content-center'>
+        <div className='p-0 p-sm-2 justify-content-center container'>
           {/* Name */}
-          <div className='form-group row mb-3 align-items-center'>
-            <label className='col-sm-2 h1 lead text-right' htmlFor='inputName'>
+          <div className='form-group row mb-1 mb-sm-3 align-items-center'>
+            <label className='col-12 col-sm-2 text-left h1 lead text-sm-right' htmlFor='inputName'>
               Name
             </label>
-            <div className='col-sm-10'>
+            <div className='col-12 col-sm-10'>
               <TextField
                 id='inputName'
                 variant="outlined"
                 size='small'
+                fullWidth
                 {...bindName}
               />
             </div>
           </div>
 
           {/* Goal */}
-          <div className='form-group row mb-3 align-items-center'>
-            <label className='col-sm-2 h1 lead text-right' htmlFor='inputGoal'>
+          <div className='form-group row mb-1 mb-sm-3 align-items-center'>
+            <label className='col-12 col-sm-2 text-left h1 lead text-sm-right' htmlFor='inputGoal'>
               Goal
             </label>
-            <div className='col-sm-10'>
+            <div className='col-12 col-sm-10'>
               <TextField
                 id='inputGoal'
                 variant="outlined"
                 size='small'
+                fullWidth
                 type='number'
                 error={!!goalError}
                 helperText={goalError}

@@ -6,7 +6,7 @@ const ProgressBar = ({ current, goal, showText }) => {
 
     return (
         <div>
-            <div className="progress border bg-light mb-2">
+            <div className={current > 0 ? "progress border bg-light mb-2 mx-auto mx-sm-0" : "progress border bg-light mb-2 mx-auto"}>
                 <div className="progress-bar bg-success progress-bar-striped-custom" role="progressbar" aria-valuenow={progress} aria-valuemin="0" aria-valuemax="100" style={{'width': progress + '%'}}>
                     {(showText) 
                         ? progress + '%' 
