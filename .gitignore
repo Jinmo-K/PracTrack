@@ -12,7 +12,14 @@ yarn-error.log*
 .npm/
 
 client/node_modules/
+client/build/
 
 config/dev.js
 
 misc
+
+.env
+.nyc_output
+
+server/controllers
+server/services

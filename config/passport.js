@@ -3,11 +3,10 @@ const ExtractJwt = require("passport-jwt").ExtractJwt;
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
 const Activity = mongoose.model('Activity');
-const keys = require("../config/keys");
 
 const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = keys.secretOrKey;
+opts.secretOrKey = process.env.secretOrKey;
 // Add req as the first parameter
 opts.passReqToCallback = true;
 
@@ -58,7 +57,7 @@ module.exports = passport => {
         .then(activity => {
           // activity.userId is not type string, jwt is
           if (activity.userId == jwt_payload.id) {
-            return done(null, jwt_payload);
+            return done(null, activity);
           }
           return done(null, false);
         })

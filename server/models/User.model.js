@@ -21,7 +21,7 @@ const UserSchema = new Schema({
     required: true,
     default: 1,
   },
-  date: {
+  created: {
     type: Date,
     required: true,
     default: Date.now,
@@ -30,20 +30,6 @@ const UserSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'Activity',
   }],
-  config: {
-    sortActivitiesBy: {
-      column: {
-        type: String,
-        required: true,
-        default: 'name',
-      },
-      order: {
-        type: Number,
-        required: true,
-        default: 1,
-      }
-    },
-  }
 });
 
 module.exports = User = mongoose.model("User", UserSchema);

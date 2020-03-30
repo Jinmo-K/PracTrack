@@ -12,7 +12,7 @@ export const sortByDuration = (activities) => {
 
 /**
  * Return colour palette based on number of colours required using PaletteJS
- * @param  {Number} n The number of colours 
+ * @param  {number} n The number of colours 
  * @return {Array}    The array of colours
  */
 export const getColours = (n) => {

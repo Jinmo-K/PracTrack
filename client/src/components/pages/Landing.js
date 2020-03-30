@@ -76,7 +76,6 @@ class Landing extends Component {
                 />
                 <span className="error-text">
                   {errors.email}
-                  {errors.emailnotfound}
                 </span>
               </div>
               <div className='form-group'>
@@ -92,7 +91,6 @@ class Landing extends Component {
                 />
                 <span className="error-text">
                   {errors.password}
-                  {errors.passwordincorrect}
                 </span>
               </div>
               <div className='form-group'>
