@@ -88,6 +88,7 @@ const Timer = ({ activity, openNewLogForm, updateActivity }) => {
 };
 
 Timer.propTypes = {
+  activity: PropTypes.object.isRequired,
   openNewLogForm: PropTypes.func.isRequired,
   updateActivity: PropTypes.func.isRequired,
 }

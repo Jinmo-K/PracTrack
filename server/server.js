@@ -6,7 +6,7 @@ const cors = require('cors');
 const usersRouter = require("./routes/api/users");
 const activitiesRouter = require("./routes/api/activities");
 const passport = require("passport");
-require("../config/passport")(passport);
+require("./middleware/passport")(passport);
 const port = process.env.PORT || 5000;
 const path = require('path');
 // DB Config

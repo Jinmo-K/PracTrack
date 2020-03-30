@@ -14,11 +14,9 @@ yarn-error.log*
 client/node_modules/
 client/build/
 
-config/dev.js
-
 misc
 
-.env
+server/.env
 .nyc_output
 
 server/controllers
