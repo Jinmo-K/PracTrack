@@ -38,7 +38,7 @@ const ActivityTable = ({ activities, history, openNewActivityForm, updateActivit
   const columns = [
     {
       title: 'Activity', field: 'title',
-      cellStyle: Object.assign(cellStyle, {wordBreak: 'break-word'}),
+      cellStyle: Object.assign({}, cellStyle, {wordBreak: 'break-word'}),
       render: activity => <span>{activity.title}</span>
     },
     {
