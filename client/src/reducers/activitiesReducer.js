@@ -60,7 +60,7 @@ export default (state = initialState, action) => {
             ...activity,
             totalDuration: activity.totalDuration - action.log.duration,
             logs: activity.logs.filter(log => log !== action.log._id),
-            updated: Date.now(),
+            updated: new Date().toISOString(),
           };
         }
         return activity;

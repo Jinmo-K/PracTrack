@@ -337,6 +337,10 @@ span[title='Edit'] .Mui-disabled {
 button.MuiIconButton-root {
   margin-left: auto;
 }
+.activityTable button.MuiIconButton-root {
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .MuiFormHelperText-root.Mui-error {
   position: absolute;

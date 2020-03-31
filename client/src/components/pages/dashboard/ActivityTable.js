@@ -16,16 +16,14 @@ import { updateActivity, deleteActivity } from '../../../actions/activitiesActio
 import { openNewActivityForm } from '../../../actions/formActions';
 import { msToHrsMinSec } from '../../../utils/timeFunctions';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-
+// Styles
 import './ActivityTable.css';
 
 const cellStyle = {
   fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"',
   textAlign: 'center',
   fontSize: '1rem',
-
-}
-
+};
 
 /** 
  * ============================================
@@ -37,31 +35,17 @@ const ActivityTable = ({ activities, history, openNewActivityForm, updateActivit
   const [isEditing, setIsEditing] = useState(false);
   const tableRef = React.createRef();
 
-  const onClick = (e, activity) => {
-    history.push(`/activities/${activity._id}`)
-  };
-
-  const onDelete = (e, data) => {
-    setIsEditing(false);
-    let titles = (data.length > 1) 
-                  ? Array.from(data).splice(1).reduce((acc, curr) => acc + ', ' + curr.title, data[0].title) 
-                  : data[0].title;
-    let confirmed = window.confirm('You\'re about to delete ' + titles + ' and all associated data. Are you sure?');
-    if (confirmed) { 
-      data.forEach(activity => deleteActivity(userId, activity._id)); 
-    }
-    tableRef.current.onAllSelected(false)  
-  };
-
   const columns = [
     {
       title: 'Activity', field: 'title',
-      cellStyle: cellStyle,
+      cellStyle: Object.assign(cellStyle, {wordBreak: 'break-word'}),
       render: activity => <span>{activity.title}</span>
     },
     {
       title: 'Total', field: 'totalDuration',
       cellStyle: cellStyle,
+      hidden: !sm,
+      editable: 'never',
       render: activity => (
         <React.Fragment>
           {msToHrsMinSec(activity.totalDuration)}
@@ -73,6 +57,8 @@ const ActivityTable = ({ activities, history, openNewActivityForm, updateActivit
     },
     {
       title: 'Last updated', field: 'updated',
+      hidden: !sm,
+      editable: 'never',
       defaultSort: 'desc',
       cellStyle: cellStyle,
       render: activity => (
@@ -80,7 +66,9 @@ const ActivityTable = ({ activities, history, openNewActivityForm, updateActivit
       )
     },
     {
-      title: 'Actions',
+      title: '',
+      hidden: isEditing,
+      editable: 'never',
       sorting: false,
       cellStyle: cellStyle,
       render: activity => (
@@ -90,21 +78,44 @@ const ActivityTable = ({ activities, history, openNewActivityForm, updateActivit
       )
     }
   ];
+  
+  const onClick = (e, activity) => {
+    history.push(`/activities/${activity._id}`)
+  };
+
+  const onDelete = (e, data) => {
+    setIsEditing(false);
+    let titles = (data.length > 1) 
+                  ? data.slice(1).reduce((acc, curr) => acc + ', ' + curr.title, data[0].title) 
+                  : data[0].title;
+    let confirmed = window.confirm('You\'re about to delete ' + titles + ' and all associated data. Are you sure?');
+    if (confirmed) { 
+      data.forEach(activity => deleteActivity(userId, activity._id)); 
+    }
+    tableRef.current.onAllSelected(false)  
+  };
 
   return (
-    <div id='logTable' className='app-text pb-4 mt-4'>
+    <div id='logTable' className='app-text pb-4 activityTable'>
       <MaterialTable
-        title=''
+        title={sm 
+          ? 'Select activities to delete, or click on the edit action to change a name' 
+          : <h6 style={{
+              fontSize: '0.8rem',
+              fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+              fontWeight: 500,
+              lineHeight: 1.6,
+              letterSpacing: '0.0075em',
+              margin: 0
+            }}>Select activities to delete, or click on the edit action to change a name</h6>}
         tableRef={tableRef}
-        columns={
-          sm ? columns 
-             : columns.filter(column => column.title === 'Activity' || column.title === 'Actions')
-        }
+        columns={columns}
         data={activities}
         options={{
           actionsColumnIndex: -1,
           addRowPosition: 'first',
           draggable: false,
+          showTitle: isEditing,
           paging: false,
           searchFieldAlignment: 'right',
           selection: isEditing,
@@ -171,7 +182,25 @@ const ActivityTable = ({ activities, history, openNewActivityForm, updateActivit
           color: '#514B64',
           borderRadius: '.25rem',
           fontSize: '1rem',
+          backgroundColor: isEditing ? 'rgb(255, 226, 236)' : 'white'
         }}
+
+        editable={isEditing 
+          ? { onRowUpdate: (newData, oldData) =>
+                new Promise((resolve, reject) => {
+                  setTimeout(() => {
+                    {
+                      if (!newData.title) reject();
+                      updateActivity(newData._id, {
+                        title: newData.title,
+                        updated: Date.now()
+                      });
+                    }
+                    resolve();
+                  }, 500);
+                })
+            } 
+          : {}}
       />
     </div>
   );

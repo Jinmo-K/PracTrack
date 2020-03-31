@@ -5,11 +5,14 @@ import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Collapse from '@material-ui/core/Collapse';
 import Fade from '@material-ui/core/Fade';
+import Icon from '@material-ui/core/Icon';
 import Timer from '../../shared/Timer';
 import ProgressBar from '../../shared/ProgressBar';
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 // Functions
 import { msToHrsMinSec, hrToMillisec } from '../../../utils/timeFunctions';
 import { updateActivity } from '../../../actions/activitiesActions';
+import { useInput } from '../../../hooks/useInput';
 
 
 /** 
@@ -22,13 +25,13 @@ const Title = ({ activity, updateActivity }) => {
   const [currGoal, setCurrGoal] = useState(activity.goal || '');
   const [newGoal, setNewGoal] = useState(currGoal);
   const [isGoalValid, setIsGoalValid] = useState(true);
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditingGoal, setIsEditingGoal] = useState(false);
   const goalInMs = hrToMillisec(newGoal);
 
-  const onSubmit = (e) => {
+  const updateGoal = (e) => {
     e.preventDefault();
     if (newGoal !== currGoal && newGoal >= 0) {
-      setIsEditing(false);
+      setIsEditingGoal(false);
       updateActivity(activity._id, { goal: newGoal });
       setCurrGoal(newGoal);
     }
@@ -36,14 +39,14 @@ const Title = ({ activity, updateActivity }) => {
 
   const onCancel = (e) => {
     e.preventDefault();
-    setIsEditing(false);
+    setIsEditingGoal(false);
     setIsGoalValid(true);
     setNewGoal(currGoal || '');
   }
 
   return (
     <div>
-      <div className='row justify-content-center mb-4 align-items-center d-sm-inline-flex'>
+      <div className='row justify-content-center mb-4 align-items-center'> 
         <div className={(activity.logs.length) ? 'col-12 col-sm text-center text-sm-left' : 'col-12 text-center'}>
           <h1 className="display-4 text-sm-break">{activity.title}</h1>
         </div>
@@ -67,10 +70,10 @@ const Title = ({ activity, updateActivity }) => {
           : <div>You haven't set a goal yet.</div>
         }
 
-        <form noValidate onSubmit={onSubmit}>
+        <form noValidate onSubmit={updateGoal}>
           <div className='mt-3 form-group'>
-            <Collapse in={isEditing} collapsedHeight={0} timeout={200}>
-              <Fade in={isEditing} timeout={700}>
+            <Collapse in={isEditingGoal} collapsedHeight={0} timeout={200}>
+              <Fade in={isEditingGoal} timeout={700}>
                 <div className='mb-3'>
                   <TextField
                     error={!isGoalValid}
@@ -91,7 +94,7 @@ const Title = ({ activity, updateActivity }) => {
                 </div>
               </Fade>
             </Collapse>
-            {isEditing
+            {isEditingGoal
               ? <div>
                   <button className='btn btn-lg' onClick={onCancel}>Cancel</button>
                   <button className='btn btn-info btn-lg'
@@ -103,7 +106,7 @@ const Title = ({ activity, updateActivity }) => {
                 <button className='btn btn-info btn-lg'
                   onClick={(e) => {
                     e.preventDefault();
-                    setIsEditing(true)
+                    setIsEditingGoal(true)
                   }}
                 >Update goal</button>
             }

@@ -90,13 +90,7 @@ export function addActivity(userId, activity) {
         dispatch(addActivitySuccess(res.data));
       })
       .catch(err => {
-        //Mongo duplicate key error
-        if (err.response.data.errorCode === 11000) {
-          dispatch(addActivityFailure('activities must have unique names.'))
-        }
-        else {
-          dispatch(addActivityFailure('something went wrong. Please try again.'));
-        }
+        dispatch(addActivityFailure(err.response.data.message));
       });
   };
 };

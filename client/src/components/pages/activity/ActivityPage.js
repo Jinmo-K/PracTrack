@@ -52,13 +52,11 @@ class ActivityPage extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     const curr = this.props.logs;
     const updated = nextProps.logs;
-    console.log(curr !== updated, curr, updated)
 
     return curr !== updated || this.props.getLogsStatus !== nextProps.getLogsStatus;
   }
 
   render() {
-    console.log(this.props.getLogsStatus)
     if (this.props.getLogsStatus === 'LOADING') {
       return <Loading />
     }

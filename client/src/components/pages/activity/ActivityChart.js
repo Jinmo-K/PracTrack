@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Chart from 'chart.js';
 import PropTypes from 'prop-types';
 // Functions
@@ -12,12 +12,18 @@ import { getTotalsPerDay } from '../../../utils/activityHelpers';
  * ============================================
  */
 const ActivityChart = ({ logs }) => {
+  const [chart, setChart] = useState(undefined)
+
   useEffect(() => {
     const totals = getTotalsPerDay(logs);
     const data = Object.values(totals).map(dur => {
       return (dur / 3600000).toFixed(2);
     })
-    new Chart(document.getElementById("graph"), {
+    // Destroy previous chart to prevent drawing over it
+    if (chart !== undefined) {
+      chart.destroy()
+    }
+    setChart(new Chart(document.getElementById("graph"), {
       type: 'line',
       data: {
         labels: Object.keys(totals),
@@ -69,7 +75,7 @@ const ActivityChart = ({ logs }) => {
         }
 
       }
-    });
+    }));
   }, [logs]);
 
   return <canvas id="graph" width="400" height="200"></canvas>;

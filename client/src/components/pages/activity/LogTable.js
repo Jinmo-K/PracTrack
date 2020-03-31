@@ -7,29 +7,34 @@ import TextField from '@material-ui/core/TextField';
 import MaterialTable from 'material-table'
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
+import MessageOutlinedIcon from '@material-ui/icons/MessageOutlined';
 // Functions
 import { deleteLog, updateLog } from '../../../actions/logActions';
 import { updateActivity } from '../../../actions/activitiesActions';
 import { msToHrsMinSec } from '../../../utils/timeFunctions';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 
 /** 
- * ============================================
+ * --------------------------------------------
  *   Table displaying an activity's logs
- * ============================================
+ * --------------------------------------------
  */
 const LogTable = ({ activity, logs, updateLog, deleteLog, updateActivity }) => {
   const [startError, setStartError] = useState('');
   const [endError, setEndError] = useState('');
+  const smLandscape = useMediaQuery('(min-width:568px)');
+  const sm = useMediaQuery('(min-width:576px)');
 
   const columns = [
     {
       title: 'Start date',
       field: 'start',
+      hidden: !smLandscape,
       render: rowData => moment(rowData.start).format('dddd MMM D h:mma'),
       editComponent: props => {
         // Valid if start time doesn't overlap previous log and comes before end time)
-        var prevEndTime = moment(logs.slice().reverse()[1].end)
+        var prevEndTime = moment(logs.length > 1 ? logs.slice().reverse()[1].end : 0)
         var startTime = moment(props.value);
         var endTime = moment(props.rowData.end)
         if ((startTime > prevEndTime) && (startTime < endTime) && (startError !== '')) {
@@ -44,7 +49,7 @@ const LogTable = ({ activity, logs, updateLog, deleteLog, updateActivity }) => {
                   error={startError ? true : false}
                   helperText={startError}
                   style={{ 'display': 'block' }}
-                  minDate={logs.slice().reverse()[1].end}
+                  minDate={logs.length > 1 ? logs.slice().reverse()[1].end : 0}
                   onChange={newStartTime => {
                     // Validate edited start time
                     if (newStartTime < prevEndTime) {
@@ -65,7 +70,12 @@ const LogTable = ({ activity, logs, updateLog, deleteLog, updateActivity }) => {
       title: 'End date',
       field: 'end',
       defaultSort: 'desc',
-      render: rowData => moment(rowData.end).format('dddd MMM D h:mma'),
+      render: rowData => (
+        <div>
+          {moment(rowData.end).format('dddd MMM D h:mma')}
+          {(!smLandscape && rowData.comments) ? <MessageOutlinedIcon /> : null}
+        </div>
+      ),
       editComponent: props => {
         // Valid if end time is between start and current time
         var startTime = moment(props.rowData.start);
@@ -103,6 +113,7 @@ const LogTable = ({ activity, logs, updateLog, deleteLog, updateActivity }) => {
     {
       title: 'Duration',
       field: 'duration',
+      hidden: !sm,
       render: rowData => msToHrsMinSec(rowData.duration),
       editComponent: props => {
         var duration = moment(props.rowData.end) - moment(props.rowData.start);
@@ -117,8 +128,9 @@ const LogTable = ({ activity, logs, updateLog, deleteLog, updateActivity }) => {
     {
       title: 'Comments',
       field: 'comments',
+      hidden: !smLandscape,
       render: rowData => (
-        <span className='d-block text-truncate' style={{ 'maxWidth': '170px' }}>
+        <span className='d-block text-truncate' style={{ 'maxWidth': sm ? '170px' : '120px' }}>
           {rowData.comments}
         </span>
       ),
@@ -139,7 +151,14 @@ const LogTable = ({ activity, logs, updateLog, deleteLog, updateActivity }) => {
       <MuiPickersUtilsProvider utils={MomentUtils}>
         <div className='align-center'>
           <MaterialTable
-            title="Logs"
+            title={sm ? "Logs" : <div style={{
+                    fontSize: '1.0rem',
+                    fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+                    fontWeight: 500,
+                    lineHeight: 1.6,
+                    letterSpacing: '0.0075em',
+                    margin: 0
+                  }}>Activity Logs</div>}
             columns={columns}
             data={logs}
             options={{
@@ -149,23 +168,29 @@ const LogTable = ({ activity, logs, updateLog, deleteLog, updateActivity }) => {
             detailPanel={[
               rowData => ({
                 render: rowData =>
-                  <div className='p-3 m-0'>
+                  <div className='container p-3 m-0'>
                     <div className='row p-0'>
-                      <label className='col-sm-1'>Start: </label>
-                      <span className='col-sm-10 font-weight-normal'>
+                      <div className='col-md-2 col-lg-1'>Start: </div>
+                      <div className='col-md-10 col-lg-11 font-weight-normal'>
                         {moment(rowData.start).format('dddd MMM-DD-YY  h:mm:ss a')}
-                      </span>
+                      </div>
                     </div>
                     <div className='row'>
-                      <label className='col-sm-1'>End: </label>
-                      <span className='col-sm-10 font-weight-normal'>
+                      <div className='col-md-2 col-lg-1'>End: </div>
+                      <div className='col-md-10 col-lg-11 font-weight-normal'>
                         {moment(rowData.end).format('dddd MMM-DD-YY  h:mm:ss a')}
-                      </span>
+                      </div>
+                    </div>
+                    <div className='row'>
+                      <div className='col-md-2 col-lg-1'>Duration: </div>
+                      <div className='col-md-10 col-lg-11 font-weight-normal'>
+                        {msToHrsMinSec(rowData.duration)}
+                      </div>
                     </div>
                     {rowData.comments
                     && <div className='row'>
-                          <label className='col-sm-1'>Comments: </label>
-                          <div className='col-sm-10 font-weight-normal text-break' style={{'white-space':'pre-wrap', }}>
+                          <div className='col-md-2 col-lg-1'>Comments: </div>
+                          <div className='col-md-10 col-lg-11 font-weight-normal text-break' style={{'white-space':'pre-wrap', }}>
                             {rowData.comments}
                           </div>
                         </div>
@@ -175,12 +200,11 @@ const LogTable = ({ activity, logs, updateLog, deleteLog, updateActivity }) => {
 
             ]}
             editable={{
-              isEditable: rowData => logs.indexOf(rowData) === logs.length - 1,
+              isEditable: rowData => smLandscape && (logs.indexOf(rowData) === logs.length - 1),
               onRowUpdate: (newData, oldData) =>
                 new Promise((resolve, reject) => {
                   setTimeout(() => {
                     {
-                      // const oldLog = 
                       if (startError || endError || newData === oldData) {
                         return reject();
                       }
@@ -195,7 +219,8 @@ const LogTable = ({ activity, logs, updateLog, deleteLog, updateActivity }) => {
                       };  
                       // Must update activity first in order to re-render title
                       updateActivity(activity._id, {
-                        totalDuration: activity.totalDuration + duration - oldData.duration
+                        totalDuration: activity.totalDuration + duration - oldData.duration,
+                        updated: Date.now()
                       })
                       updateLog(newLog);
                     }

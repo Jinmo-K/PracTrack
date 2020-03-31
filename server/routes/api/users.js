@@ -161,6 +161,10 @@ router.post('/:userId/activities/', passport.authenticate('personal', { session:
   const { title, goal } = req.body;
   const newActivity = new Activity({ userId, title, goal });
 
+  // Check if title of activity already exists
+  if (await Activity.findOne({title: req.body.title, userId})) {
+    return res.status(409).json({message: 'activities must have unique names.'})
+  }
   // Add the new activity to DB
   await newActivity.save();
   // Add reference to the new activity to the user

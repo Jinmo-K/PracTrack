@@ -50,6 +50,7 @@ router.put('/:activityId', passport.authenticate('user', { session: false }), ha
   else if (activity.userId.toString() !== req.user._id.toString()) {
     return res.status(401).send();
   }
+  // Can't automatically set 'updated' here due to how the timer works
   Object.assign(activity, req.body);
   res.json(await activity.save());
 }));
