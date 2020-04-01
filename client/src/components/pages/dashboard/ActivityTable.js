@@ -32,6 +32,7 @@ const cellStyle = {
  */
 const ActivityTable = ({ activities, history, openNewActivityForm, updateActivity, deleteActivity, userId }) => {
   const sm = useMediaQuery('(min-width:576px)'); // Bootstrap sm
+  const smLandscape = useMediaQuery('(min-width:568px)');
   const [isEditing, setIsEditing] = useState(false);
   const tableRef = React.createRef();
 
@@ -44,7 +45,7 @@ const ActivityTable = ({ activities, history, openNewActivityForm, updateActivit
     {
       title: 'Total', field: 'totalDuration',
       cellStyle: cellStyle,
-      hidden: !sm,
+      hidden: !smLandscape,
       editable: 'never',
       render: activity => (
         <React.Fragment>
@@ -57,7 +58,7 @@ const ActivityTable = ({ activities, history, openNewActivityForm, updateActivit
     },
     {
       title: 'Last updated', field: 'updated',
-      hidden: !sm,
+      hidden: !smLandscape,
       editable: 'never',
       defaultSort: 'desc',
       cellStyle: cellStyle,
