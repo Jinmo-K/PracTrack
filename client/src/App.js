@@ -18,45 +18,29 @@ import Loading from'./components/shared/Loading';
 // Functions
 import { setCurrentUser, logoutUser, resetUpdateUser } from "./actions/authActions";
 import { getActivities, resetAddActivityStatus } from './actions/activitiesActions';
-import setAuthToken from "./utils/setAuthToken";
+import { setAuthToken, checkToken, checkForToken } from "./utils/authHelpers";
 // Styles
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import "./App.css";
-
-// Check for token to keep user logged in
-if (localStorage.jwtToken) {
-  // Set auth token header auth
-  const token = localStorage.jwtToken;
-  setAuthToken(token);
-  // Decode token and get user info and exp
-  const decoded = jwt_decode(token);
-  // Set user and isAuthenticated
-  store.dispatch(setCurrentUser(decoded));
-  // Check for expired token
-  const currentTime = Date.now() / 1000; // to get in milliseconds
-  if (decoded.exp < currentTime) {
-    // Logout user
-    store.dispatch(logoutUser());
-    // Redirect to login
-    window.location.href = "./login";
-  }
-}
 
 
 class App extends Component {
   state = {
     flashMessage: '',
     flashStyle: 'alert-warning',
+    loading: localStorage.jwtToken ? true : false
+  } 
+  componentDidMount() {
+    // Check for token to keep user logged in
+    checkForToken()
+      .then(() => this.setState({ loading: false }));
   }
-
-  componentDidMount = () => {
-    if (this.props.auth.isAuthenticated) {
+  
+  componentDidUpdate = (prevProps) => { 
+    if (this.props.auth.isAuthenticated && !prevProps.auth.isAuthenticated) {
       this.props.getActivities(this.props.auth.user.id);
     }
-  }
-
-  componentDidUpdate = () => { 
     const status = this.props.status;
 
     if (status.addActivity === 'SUCCESS') {
@@ -84,7 +68,7 @@ class App extends Component {
     });
     setTimeout(() => {
       this.hideFlash();
-    }, 5000);
+    }, 3000);
   }
 
   hideFlash = () => {
@@ -95,6 +79,8 @@ class App extends Component {
     return (
         <Router>
             <Navbar />
+            {!this.state.loading
+            &&
             <div className='container-flex app-text'>
               <div className="container">
                 {/* Flash message */}
@@ -124,6 +110,7 @@ class App extends Component {
                 </Switch>
               </div>
             </div>
+            }
         </Router>
     );
   }

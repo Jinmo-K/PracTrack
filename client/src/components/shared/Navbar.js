@@ -67,7 +67,7 @@ const Navbar = ({ auth, logoutUser, history }) => {
                       Settings
                     </Link>
                   </li>
-                  <span class="border" style={{maxWidth: '10ch'}}></span>
+                  <span className="border" style={{maxWidth: '10ch'}}></span>
                   <li className='nav-item'>
                     <Link to='/' 
                           className='nav-link nav-btn pb-0' 

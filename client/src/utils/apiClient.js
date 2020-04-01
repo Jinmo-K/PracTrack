@@ -43,7 +43,10 @@ const apiClient = {
   },
   updateUser(userId, data) {
     return axios.put(USER_URL(userId), data);
-  }
+  },
+  getUser(userId) {
+    return axios.get(USER_URL(userId));
+  },
 }
 
 export default apiClient;
