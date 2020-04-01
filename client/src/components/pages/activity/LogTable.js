@@ -164,6 +164,7 @@ const LogTable = ({ activity, logs, updateLog, deleteLog, updateActivity }) => {
             options={{
               actionsColumnIndex: -1,
               addRowPosition: 'first',
+              exportButton: true
             }}
             detailPanel={[
               rowData => ({
