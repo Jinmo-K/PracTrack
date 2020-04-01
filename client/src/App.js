@@ -14,15 +14,15 @@ import ActivitiesList from "./components/pages/dashboard/ActivitiesList";
 import AppModal from './components/forms/AppModal';
 import PieChart from './components/pages/dashboard/PieChart';
 import Settings from './components/pages/user/Settings';
+import Loading from'./components/shared/Loading';
 // Functions
-import { setCurrentUser, logoutUser } from "./actions/authActions";
+import { setCurrentUser, logoutUser, resetUpdateUser } from "./actions/authActions";
 import { getActivities, resetAddActivityStatus } from './actions/activitiesActions';
 import setAuthToken from "./utils/setAuthToken";
 // Styles
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import "./App.css";
-
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -67,6 +67,14 @@ class App extends Component {
       this.displayFlash('Error! Unable to create new activity: ' + status.addActivityError, 'alert-danger');
       this.props.resetAddActivityStatus();
     }
+    if(status.updateUser === 'SUCCESS') {
+      this.displayFlash('Successfully updated profile!', 'alert-success');
+      this.props.resetUpdateUser();
+    }
+    if (status.updateUser === 'ERROR') {
+      this.displayFlash('Error! Unable to update profile: ' + status.updateUserError, 'alert-danger');
+      this.props.resetUpdateUser();
+    }
   }
 
   displayFlash = (message, type) => {
@@ -104,16 +112,13 @@ class App extends Component {
                  && <PieChart />
                 }
                 <Switch>
-                  {/* Create activity page route only after componentDidMount runs */}
-                  {(this.props.activities.length) 
-                    && <PrivateRoute path="/activities/:activityId" component={ActivityPage} />
-                  }
+                  <PrivateRoute exact path="/activities/:activityId" 
+                    component={this.props.activities.length ? ActivityPage : Loading} 
+                  />
                   <PrivateRoute path='/settings' component={Settings} />
-                  
-                  {this.props.auth.isAuthenticated 
-                    && <Route exact path='/' component={ActivitiesList} />
-                  }
-                  <Route exact path="/" component={Landing} />
+                  <Route exact path="/" 
+                    component={this.props.auth.isAuthenticated ? ActivitiesList : Landing} 
+                  />
                   <Route path="/register" component={Register} />
                   <Route component={Landing} />
                 </Switch>
@@ -132,6 +137,7 @@ App.propTypes = {
   logoutUser: PropTypes.func.isRequired,
   getActivities: PropTypes.func.isRequired,
   resetAddActivityStatus: PropTypes.func.isRequired,
+  resetUpdateUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -144,6 +150,7 @@ const mapDispatchToProps = {
   logoutUser,
   getActivities,
   resetAddActivityStatus,
+  resetUpdateUser,
 };
 
 export default connect(

@@ -117,15 +117,15 @@ form .btn-info:focus {
   text-decoration: none;
 }
 
-.login button, .login button:focus {
+.login button[type='submit'], .login button[type='submit']:focus {
   background-color: rgb(57,140,201);
   color: #fff;
 }
-.login button:hover {
+.login button[type='submit']:hover {
   background-color: rgb(51, 128, 184);
   color: #fff;
 }
-.login button:active {
+.login button[type='submit']:active {
   background-color: rgb(46, 118, 170);
   color: #fff;
 }

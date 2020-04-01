@@ -7,6 +7,7 @@ const setDummyUser = require('../dummyUser');
 
 const Activity = require('../../models/Activity.model');
 const User = require('../../models/User.model');
+const Log = require('../../models/Log.model');
 
 var authenticatedUser = request.agent(server);
 
@@ -351,6 +352,9 @@ describe('Activities----------', () => {
     beforeEach(async () => {
       await setDummy();
     });
+    afterEach(async () => {
+      await Log.collection.drop();
+    })
     it('should add a new log to an activity on POST /activities/{activityId}/logs and update the activity', (done) => {
       const newLog = {
         userId,

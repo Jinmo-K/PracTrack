@@ -25,11 +25,6 @@ export default function(state = initialState, action) {
         ...state,
         loading: true
       };
-    case UPDATE_USER_SUCCESS:
-      return {
-        ...state,
-        user: action.user
-      };
     default:
       return state;
   }

@@ -2,10 +2,12 @@
 export const GET_ERRORS = "GET_ERRORS";
 export const USER_LOADING = "USER_LOADING";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
+export const RESET_AUTH_ERRORS = 'RESET_AUTH_ERRORS';
 
 // User types
 export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
 export const UPDATE_USER_FAILURE = 'UPDATE_USER_FAILURE';
+export const RESET_UPDATE_USER = 'RESET_UPDATE_USER';
 
 // Activities types
 export const ADD_ACTIVITY_SUCCESS = 'ADD_ACTIVITY_SUCCESS';
