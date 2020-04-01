@@ -19,6 +19,7 @@ import {
   RESET_UPDATE_LOG,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE,
+  RESET_UPDATE_USER,
 } from '../actions/types';
 
 const LOADING = 'LOADING';
@@ -131,6 +132,10 @@ export default (state = initialState, action) => {
       updateUser: ERROR,
       updateUserError: action.error
     },
+    [RESET_UPDATE_USER]: {
+      updateUser: '',
+      updateUserError: ''
+    }
   }
   return Object.assign({}, state, actionHandlers[action.type]);
 }

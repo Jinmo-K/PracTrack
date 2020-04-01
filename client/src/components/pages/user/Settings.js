@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 // Components
 import TextField from '@material-ui/core/TextField';
+import Collapse from '@material-ui/core/Collapse';
+import Fade from '@material-ui/core/Fade';
 // Functions
 import { useInput } from '../../../hooks/useInput';
-import { updateUser } from '../../../actions/authActions';
+import { updateUser, resetAuthErrors, resetUpdateUser } from '../../../actions/authActions';
 
 
 /** 
@@ -13,17 +15,52 @@ import { updateUser } from '../../../actions/authActions';
  *   Edit user information 
  * ============================================
  */
-const Settings = ({ user, errors, updateUser }) => {
+const Settings = ({ user, errors, updateUser, resetAuthErrors, updateUserStatus, resetUpdateUser }) => {
   const {value:name, bindProps:bindName} = useInput(user.name);
   const {value:email, bindProps:bindEmail} = useInput(user.email);
-  const {value:currPw, bindProps:bindCurrPw} = useInput('');
-  const {value:newPw, bindProps:bindNewPw} = useInput('');
-  const {value:newPw2, bindProps:bindNewPw2} = useInput('');
+  const {value:currPassword, bindProps:bindCurrPw, setValue: setCurrPw} = useInput('');
+  const {value:password, bindProps:bindNewPw, setValue:setPw} = useInput('');
+  const {value:password2, bindProps:bindNewPw2, setValue:setPw2} = useInput('');
+  const [isChangingPw, setIsChangingPw] = useState(false);
+  const [dirtyFlag, setDirtyFlag] = useState(false);
 
   const onSubmit = (e) => {
     e.preventDefault();
+    let updateValues = { currPassword };
+    if (name !== user.name)   updateValues.name = name;
+    if (email !== user.email) updateValues.email = email;
+    if (password) updateValues.password = password;
+    if (password2) updateValues.password2 = password2;
+
+    updateUser(user.id, updateValues)
   }
 
+  const toggleChangePw = (e) => {
+    e.preventDefault();
+    if (isChangingPw) {
+      setPw('');
+      setPw2('');
+    }
+    setIsChangingPw(!isChangingPw);
+  }
+
+  useEffect(() => {
+    if ((name !== user.name) || (email !== user.email) || (password && password2)) {
+      setDirtyFlag(true);
+    }
+    else {
+      setDirtyFlag(false);
+    }
+    if (updateUserStatus === 'SUCCESS') {
+      setCurrPw('');
+      setPw('');
+      setPw2('');
+      setIsChangingPw(false);
+    }
+    return () => {
+      resetAuthErrors(['name', 'email', 'currPassword', 'password', 'password2'])
+    }
+  }, [name, email, currPassword, password, password2, updateUserStatus])
 
   return (
     <div className='row mt-3 justify-content-center login mx-auto align-items-center'>
@@ -38,7 +75,7 @@ const Settings = ({ user, errors, updateUser }) => {
             fullWidth
             label='Name'
             variant='outlined'
-            error={errors.name}
+            error={!!errors.name}
             {...bindName} 
           />
           <span className="error-text">
@@ -53,7 +90,7 @@ const Settings = ({ user, errors, updateUser }) => {
             label='Email'
             variant='outlined'
             type='email'
-            error={errors.email}
+            error={!!errors.email}
             {...bindEmail} 
           />
           <span className="error-text">
@@ -61,51 +98,68 @@ const Settings = ({ user, errors, updateUser }) => {
           </span>
         </div>
 
-        <h5 className='mt-5'>Change password</h5>
         {/* Current password */}
         <div className='form-group'>
           <TextField 
             fullWidth
-            label='Current password'
+            label='Password'
             variant='outlined'
             type='password'
-            error={errors.currentPassword}
+            error={!!errors.currPassword}
             {...bindCurrPw} 
           />
           <span className="error-text">
-            {errors.currentPassword}
+            {errors.currPassword}
           </span>
         </div>
 
-        {/* New password */}
+        {/* Change password button */}
+        <button onClick={toggleChangePw} 
+                type='button'
+                className="btn btn-link pt-0 mb-2 forgot"
+                style={{fontSize: '16px',
+              '&:hover': {fontSize:'18px'}}}
+        >
+          <u>{isChangingPw ? 'Cancel' : 'Change password'}</u>
+        </button>
+
+        <Collapse in={isChangingPw} collapsedHeight={0} timeout={200}>
+          <Fade in={isChangingPw} timeout={400}>
+            <div>
+              {/* New password */}
+              <div className='form-group'>
+                <TextField 
+                  fullWidth
+                  label='New password'
+                  variant='outlined'
+                  type='password'
+                  error={!!errors.password}
+                  {...bindNewPw} 
+                />
+                <span className="error-text">
+                  {errors.password}
+                </span>
+              </div>
+              {/* Confirm new password */}
+              <div className='form-group'>
+                <TextField 
+                  fullWidth
+                  label='Confirm new password'
+                  variant='outlined'
+                  type='password'
+                  error={!!errors.password2}
+                  {...bindNewPw2} 
+                />
+                <span className="error-text">
+                  {errors.password2}
+                </span>
+              </div>
+            </div>
+          </Fade>
+        </Collapse>
+
         <div className='form-group'>
-          <TextField 
-            fullWidth
-            label='New password'
-            variant='outlined'
-            type='password'
-            error={errors.password}
-            {...bindNewPw} 
-          />
-          <span className="error-text">
-            {errors.password}
-          </span>
-        </div>
-        <div className='form-group'>
-          <TextField 
-            fullWidth
-            label='Confirm new password'
-            variant='outlined'
-            type='password'
-            error={errors.password2}
-            {...bindNewPw2} 
-          />
-          <span className="error-text">
-            {errors.password2}
-          </span>
-        </div>
-        <div className='form-group'>
-          <button className='btn btn-block' type='submit'>Save</button>
+          <button className='btn btn-block' type='submit' disabled={!dirtyFlag}>Save</button>
         </div>
       </form>
     </div>
@@ -117,14 +171,24 @@ Settings.propTypes = {
   user: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
   updateUser: PropTypes.func.isRequired,
+  resetAuthErrors: PropTypes.func.isRequired,
+  updateUserStatus: PropTypes.string.isRequired,
+  resetUpdateUser: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
   user: state.auth.user,
   errors: state.errors,
+  updateUserStatus: state.status.updateUser,
 });
+
+const mapDispatchToProps = {
+  updateUser,
+  resetAuthErrors,
+  resetUpdateUser,
+}
 
 export default connect(
   mapStateToProps,
-  { updateUser }
+  mapDispatchToProps
 )(Settings);

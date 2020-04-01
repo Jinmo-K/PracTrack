@@ -6,20 +6,21 @@ import {
   SET_CURRENT_USER, 
   USER_LOADING,
   UPDATE_USER_SUCCESS,
-  UPDATE_USER_FAILURE,
+  RESET_AUTH_ERRORS,
+  RESET_UPDATE_USER,
 } from './types';
 import apiClient from "../utils/apiClient";
+import jwt_decode from "jwt-decode";
 
 // Modified authentication code from https://github.com/rishipr/mern-auth/
 
-const updateUserSuccess = (user) => ({
-  type: UPDATE_USER_SUCCESS,
-  user
+const updateUserSuccess = () => ({
+  type: UPDATE_USER_SUCCESS
 });
 
 const updateUserFailure = (error) => ({
-  type: UPDATE_USER_FAILURE,
-  error
+  type: GET_ERRORS,
+  payload: error
 });
 
 
@@ -84,9 +85,33 @@ export const logoutUser = () => dispatch => {
 export const updateUser = (userId, values) => (dispatch) => {
   apiClient.updateUser(userId, values)
     .then(res => {
-      dispatch(updateUserSuccess(res.data));
+      let {token} = res.data;
+      if (token) {
+        // Update token
+        localStorage.setItem("jwtToken", token);
+        setAuthToken(token);
+        const decoded = jwt_decode(token);
+        dispatch(setCurrentUser(decoded));
+        dispatch(updateUserSuccess());
+      }
     })
     .catch(err => {
       dispatch(updateUserFailure(err.response.data));
     })
+}
+export const resetUpdateUser = () => (dispatch) => {
+  dispatch({
+    type: RESET_UPDATE_USER
+  })
+};
+
+/**
+ * Remove specific auth errors 
+ * @param {Array.<string>} values the keys to be removed 
+ */
+export const resetAuthErrors = (values) => (dispatch) => {
+  dispatch({
+    type: RESET_AUTH_ERRORS,
+    values
+  })
 }

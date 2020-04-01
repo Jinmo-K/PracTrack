@@ -42,7 +42,7 @@ const apiClient = {
     return axios.post(LOGIN_URL, userData);
   },
   updateUser(userId, data) {
-    return axios.put(USER_URL(userId, data));
+    return axios.put(USER_URL(userId), data);
   }
 }
 

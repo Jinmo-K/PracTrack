@@ -7,11 +7,15 @@ const User = require('../../models/User.model');
 const Log = require('../../models/Log.model');
 const Activity = require('../../models/Activity.model');
 
-// Modified authentication code from https://github.com/rishipr/mern-auth/
+// Modified login/register code from https://github.com/rishipr/mern-auth/
 
 // Load input validation
-const validateRegisterInput = require("../../utils/registerValidation");
-const validateLoginInput = require("../../utils/loginValidation");
+const { validateRegisterInput, 
+        validateName, 
+        validateEmail, 
+        validatePw,
+        validateLoginInput
+} = require("../../utils/userFieldsValidation");
 
 // Load async wrapper function
 const handleAsyncError = require('../../middleware/handleAsyncError');
@@ -84,6 +88,7 @@ router.post("/login", handleAsyncError((req, res) => {
         const payload = {
           id: user.id,
           name: user.name,
+          email: user.email,
           role: user.role,
         };
 
@@ -130,10 +135,83 @@ router.get('/:userId', passport.authenticate('personal', { session : false }), h
   res.json(await User.findById(req.params.userId));   
 }));    
 
-// TODO
-// @route PUT /api/users/{userId} 
-// @desc Update the specified user
-// @access Private
+/**
+ * @route PUT /api/users/{userId}
+ * @desc Update the specified user
+ * @access Private
+ */
+router.put('/:userId', passport.authenticate('personal', { session: false}), handleAsyncError(async (req, res) => { 
+  let user = await User.findById(req.params.userId);
+  let {currPassword, password2, ...newValues} = req.body;
+  let errors = {};
+  let nameError = {};
+  let emailError = {};
+  let currPwError = {};
+  let pwError = {};
+
+  if (!user) { return res.status(404).json({message: 'User not found'}) }
+  if (currPassword) {
+    let isMatch = await bcrypt.compare(currPassword, user.password);
+    if (!isMatch) {
+      currPwError = {currPassword: 'Incorrect password.'};
+    }
+  }
+  else {
+    currPwError = {currPassword: 'Current password required for all changes'};
+  }
+  // If nothing's being updated, simply return
+  if (!Object.keys(newValues).length) { return res.status(200).json(user) }
+  // Validations
+  if (newValues.name && newValues.name !== user.name) {
+    let {errors:validateNameError, isValid} = validateName({name: newValues.name});
+    if (!isValid) {
+      nameError = validateNameError;
+    }
+  }
+  if (newValues.email && newValues.email !== user.email) {
+    let {errors:validateEmailError, isValid} = validateEmail({email: newValues.email});
+    if (!isValid) {
+      emailError = validateEmailError;
+    }
+    // Check if email already exists
+    else {
+      let emailExists = await User.findOne({email: req.body.email});
+      if (emailExists) { emailError = {email: 'Email already exists'} }
+    }
+  }
+  if (newValues.password || password2) {
+    let {errors:validatePwError, isValid} = validatePw({password: newValues.password, password2});
+    if (!isValid) {
+      pwError = validatePwError;
+    }
+    else {
+      let salt = await bcrypt.genSalt(10);
+      let hash = await bcrypt.hash(newValues.password, salt);
+      newValues.password = hash;
+    }
+  }
+
+  // Return errors, if any
+  Object.assign(errors, nameError, emailError, currPwError, pwError);
+  if (Object.keys(errors).length) {
+    return res.status(400).json(errors);
+  }
+  // Otherwise update the user and send it back with new token
+  Object.assign(user, newValues);
+  const payload = {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  };
+  await user.save();
+  // Sign token 
+  let token = jwt.sign(payload, process.env.secretOrKey,{
+    expiresIn: 31556926 
+  });
+  res.json({token: 'Bearer ' + token});
+}));
+
 
 // TODO
 // @route DELETE /api/users/{userId}

@@ -424,7 +424,113 @@ describe('Users-----------------', () => {
   });
 
   describe('PUT', () => {
-    // TODO 
+    let newValues = {
+      name: 'Updated user',
+      email: 'updated@test.com',
+      currPassword: 'tester',
+      password: 'testing',
+      password2: 'testing'
+    };
+
+    it('should return unauthorized status on PUT /users/{userId} for public user', (done) => {
+      authenticatedUser 
+        .put(`/api/users/${userId}`)
+        .send(newValues)
+        .end((err, res) => {
+          if (err) done(err);
+          expect(res.statusCode).to.equal(401);
+          expect(Object.keys(res.body).length).to.equal(0);
+          done();
+        });
+    });
+    it('should return unauthorized status on PUT /users/{userId} for incorrect user', (done) => {
+      // Register a new user
+      const newUser = {
+        name: 'Test User',
+        email: 'testuser@test.com',
+        password: 'tester2',
+        password2: 'tester2'
+      };
+      var newUserId = null;
+      authenticatedUser
+        .post('/api/users/register')
+        .send(newUser)
+        .end((err, res) => {
+          if (err) done(err);
+          expect(res.statusCode).to.equal(200);
+          newUserId = res.body._id;
+          // Try to PUT with incorrect token
+          authenticatedUser 
+            .put(`/api/users/${newUserId}`)
+            .send(newValues)
+            .set('Authorization', token)
+            .end((err, res) => {
+              if (err) done(err);
+              expect(res.statusCode).to.equal(401);
+              expect(Object.keys(res.body).length).to.equal(0);
+              done();
+            });
+        });
+    });
+    it('should return incorrect password error on PUT /users/{userId}', (done) => {
+      authenticatedUser
+        .put(`/api/users/${userId}`)
+        .send({...newValues, currPassword: 'incorrectpw'})
+        .set('Authorization', token)
+        .end((err, res) => {
+          if (err) done(err);
+          expect(res.statusCode).to.equal(400);
+          expect(res.body).to.be.a('object');
+          expect(res.body.currPassword).to.equal('Incorrect password.');
+          expect(Object.keys(res.body).length).to.equal(1);
+          done();
+        });
+    });
+    it('should return incorrect password error on PUT /users/{userId}', (done) => {
+      authenticatedUser
+        .put(`/api/users/${userId}`)
+        .send({...newValues, currPassword: 'incorrectpw'})
+        .set('Authorization', token)
+        .end((err, res) => {
+          if (err) done(err);
+          expect(res.statusCode).to.equal(400);
+          expect(res.body).to.be.a('object');
+          expect(res.body.currPassword).to.equal('Incorrect password.');
+          expect(Object.keys(res.body).length).to.equal(1);
+          done();
+        });
+    });
+    it('should return email already exists error on PUT /users/{userId}', (done) => {
+      // Register a new user
+      const newUser = {
+        name: 'Test User',
+        email: 'testuser@test.com',
+        password: 'tester2',
+        password2: 'tester2'
+      };
+      authenticatedUser
+        .post('/api/users/register')
+        .send(newValues)
+        .send(newUser)
+        .end((err, res) => {
+          if (err) done(err);
+          expect(res.statusCode).to.equal(200);
+          authenticatedUser 
+            .put(`/api/users/${userId}`)
+            .set('Authorization', token)
+            .send({...newValues, email: 'testuser@test.com'})
+            .end((err, res) => {
+              if (err) done(err);
+              expect(res.statusCode).to.equal(400);
+              expect(res.body).to.be.a('object');
+              expect(res.body.email).to.equal('Email already exists');
+              expect(Object.keys(res.body).length).to.equal(1);
+              done();
+            });
+        });
+    });
+    // TODO
+
   });
 
   describe('DELETE', () => {
