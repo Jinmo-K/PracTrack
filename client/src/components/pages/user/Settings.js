@@ -117,8 +117,7 @@ const Settings = ({ user, errors, updateUser, resetAuthErrors, updateUserStatus,
         <button onClick={toggleChangePw} 
                 type='button'
                 className="btn btn-link pt-0 mb-2 forgot"
-                style={{fontSize: '16px',
-              '&:hover': {fontSize:'18px'}}}
+                style={{fontSize: '16px'}}
         >
           <u>{isChangingPw ? 'Cancel' : 'Change password'}</u>
         </button>
