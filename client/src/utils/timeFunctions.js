@@ -8,7 +8,10 @@ export function msToHrsMinSec(ms) {
   const hrsRemaining = Math.floor(timeInHrs);
   const minRemaining = Math.floor((timeInHrs - hrsRemaining) * 60);
   const secRemaining = Math.round((((timeInHrs - hrsRemaining) * 60) - minRemaining) * 60);
-
+  if (secRemaining === 60) {
+    secRemaining = 0;
+    minRemaining++;
+  }
   return ((hrsRemaining) ? (`${hrsRemaining} hr `) : ('')) 
        + ((minRemaining) ? (`${minRemaining} min `) : ('')) 
        + ((secRemaining) ? (`${secRemaining} sec `) : (''));
