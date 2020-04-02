@@ -36,6 +36,9 @@ class ActivitiesList extends Component {
     });
     return sortedActivities;
   }
+  // TODO
+  // shouldComponentUpdate(nextProps, nextState) {
+  // }
 
   render() {
     if (this.props.activitiesStatus !== 'SUCCESS') {

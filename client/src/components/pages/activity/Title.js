@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 // Components
 import TextField from '@material-ui/core/TextField';
@@ -18,28 +18,29 @@ import { updateActivity } from '../../../actions/activitiesActions';
  * ============================================
  */
 const Title = ({ activity, updateActivity }) => {
-  // Reflects actual goal in db
-  const [currGoal, setCurrGoal] = useState(activity.goal || '');
+  const currGoal = activity.goal || '';
   const [newGoal, setNewGoal] = useState(currGoal);
   const [isGoalValid, setIsGoalValid] = useState(true);
   const [isEditingGoal, setIsEditingGoal] = useState(false);
-  const goalInMs = hrToMillisec(newGoal);
+  const goalInMs = isEditingGoal ? hrToMillisec(newGoal) : hrToMillisec(currGoal);
 
   const updateGoal = (e) => {
     e.preventDefault();
     if (newGoal !== currGoal && newGoal >= 0) {
       setIsEditingGoal(false);
       updateActivity(activity._id, { goal: newGoal });
-      setCurrGoal(newGoal);
     }
-  }
+  };
 
   const onCancel = (e) => {
     e.preventDefault();
     setIsEditingGoal(false);
     setIsGoalValid(true);
     setNewGoal(currGoal || '');
-  }
+  };
+
+  if (currGoal !== newGoal && !isEditingGoal) setNewGoal(currGoal);
+
 
   return (
     <div>
@@ -114,7 +115,11 @@ const Title = ({ activity, updateActivity }) => {
   )
 }
 
+const mapStateToProps = (state) => ({
+  updateActivityStatus: state.status.updateActivity,
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { updateActivity }
 )(Title);

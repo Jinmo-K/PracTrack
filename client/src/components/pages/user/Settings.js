@@ -16,8 +16,8 @@ import { updateUser, resetAuthErrors, resetUpdateUser } from '../../../actions/a
  * ============================================
  */
 const Settings = ({ user, errors, updateUser, resetAuthErrors, updateUserStatus, resetUpdateUser }) => {
-  const {value:name, bindProps:bindName} = useInput(user.name);
-  const {value:email, bindProps:bindEmail} = useInput(user.email);
+  const {value:name, bindProps:bindName, setValue:setName} = useInput(user.name);
+  const {value:email, bindProps:bindEmail, setValue:setEmail} = useInput(user.email);
   const {value:currPassword, bindProps:bindCurrPw, setValue: setCurrPw} = useInput('');
   const {value:password, bindProps:bindNewPw, setValue:setPw} = useInput('');
   const {value:password2, bindProps:bindNewPw2, setValue:setPw2} = useInput('');
@@ -52,15 +52,19 @@ const Settings = ({ user, errors, updateUser, resetAuthErrors, updateUserStatus,
       setDirtyFlag(false);
     }
     if (updateUserStatus === 'SUCCESS') {
+      setName(user.name);
+      setEmail(user.email);
       setCurrPw('');
       setPw('');
       setPw2('');
       setIsChangingPw(false);
     }
     return () => {
-      resetAuthErrors(['name', 'email', 'currPassword', 'password', 'password2'])
+      if (Object.keys(errors).length) {
+        resetAuthErrors(['name', 'email', 'currPassword', 'password', 'password2'])
+      }
     }
-  }, [name, email, currPassword, password, password2, updateUserStatus])
+  }, [user, name, email, currPassword, password, password2, updateUserStatus, errors])
 
   return (
     <div className='row mt-3 justify-content-center login mx-auto align-items-center'>

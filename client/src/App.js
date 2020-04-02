@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import socket from './utils/socket';
 // Components
 import Landing from "./components/pages/Landing";
 import Register from "./components/pages/user/Register";
@@ -22,17 +23,25 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import "./App.css";
 
-
 class App extends Component {
   state = {
     flashMessage: '',
     flashStyle: 'alert-warning',
-    loading: localStorage.jwtToken ? true : false
+    loading: localStorage.jwtToken ? true : false,
+    response: 0
   } 
   componentDidMount() {
     // Check for token to keep user logged in
     checkForToken()
-      .then(() => this.setState({ loading: false }));
+      .then(() => {
+        this.setState({ loading: false });
+        // Connect to user's socketIO room
+        socket.emit('userConnected', {userId: this.props.auth.user.id});
+        // Receive and dispatch redux actions that occur on other devices/browsers
+        socket.on('action', action => {
+          this.props.dispatch({...action, remote: true});
+        });
+      });
   }
   
   componentDidUpdate = (prevProps) => { 
@@ -58,7 +67,9 @@ class App extends Component {
       this.props.resetUpdateUser();
     }
     if (status.updateActivity === 'SUCCESS') {
-      this.displayFlash('Updated activity: '+ status.activity.title + ' !', 'alert-success');
+      if (status.alert) {
+        this.displayFlash('Updated activity: '+ status.activity.title + ' !', 'alert-success');
+      }
       this.props.resetUpdateActivity();
     }
     if (status.updateActivity === 'ERROR') {
@@ -105,7 +116,7 @@ class App extends Component {
                 }
                 <Switch>
                   <PrivateRoute exact path="/activities/:activityId" 
-                    component={this.props.activities.length ? ActivityPage : Loading} 
+                    component={ActivityPage} 
                   />
                   <PrivateRoute path='/settings' component={Settings} />
                   <Route exact path="/" 
@@ -146,6 +157,7 @@ const mapDispatchToProps = {
   resetAddActivity,
   resetUpdateActivity,
   resetUpdateUser,
+  dispatch: (action) => action,
 };
 
 export default connect(

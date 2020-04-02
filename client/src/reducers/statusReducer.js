@@ -11,7 +11,7 @@ import {
   GET_ACTIVITY_LOGS_SUCCESS,
   GET_ACTIVITY_LOGS_FAILURE,
   RESET_ADD_ACTIVITY,
-  EMPTY_LOGS,
+  FLUSH_LOGS,
   DELETE_LOG_SUCCESS,
   DELETE_LOG_FAILURE,
   UPDATE_LOG_SUCCESS,
@@ -26,6 +26,7 @@ import {
   RESET_UPDATE_ACTIVITY,
   GET_ACTIVITY_BEGIN,
   RESET_GET_ACTIVITY,
+  FLUSH_ACTIVITY,
 } from '../actions/types';
 
 const LOADING = 'LOADING';
@@ -39,7 +40,6 @@ const initialState = {
   addActivityError: '',
   updateActivity: '',
   updateActivityError: '',
-  activity: {},
   deleteActivity: '',
   deleteActivityError: '',
   logs: '',
@@ -48,6 +48,7 @@ const initialState = {
   updateLogError: '',
   updateUser: '',
   updateUserError: '',
+  alert: true
 }
 
 export default (state = initialState, action) => {
@@ -64,20 +65,6 @@ export default (state = initialState, action) => {
     [GET_ACTIVITIES_FAILURE]: {
       activities: ERROR,
       activitiesError: action.error,
-    },
-    [GET_ACTIVITY_BEGIN]: {
-      getActivity: LOADING,
-      getActivityError: '',
-      activity: {}
-    },
-    [GET_ACTIVITY_SUCCESS]: {
-      getActivity: SUCCESS,
-      getActivityError: '',
-      activity: action.activity,
-    },
-    [RESET_GET_ACTIVITY]: {
-      getActivity: '',
-      getActivityError: '',
     },
     [ADD_ACTIVITY_SUCCESS]: {
       addActivity: SUCCESS,
@@ -104,7 +91,8 @@ export default (state = initialState, action) => {
     [UPDATE_ACTIVITY_SUCCESS]: {
       updateActivity: SUCCESS,
       updateActivityError: '',
-      activity: action.activity
+      activity: action.activity,
+      alert: action.alert
     },
     [UPDATE_ACTIVITY_FAILURE]: {
       updateActivity: ERROR,
@@ -113,6 +101,7 @@ export default (state = initialState, action) => {
     [RESET_UPDATE_ACTIVITY]: {
       updateActivity: '',
       updateActivityError: '',
+      alert: true
     },
 
     // Log statuses--------------------
@@ -144,7 +133,7 @@ export default (state = initialState, action) => {
       logs: ERROR,
       logsError: action.error
     },
-    [EMPTY_LOGS]: {
+    [FLUSH_LOGS]: {
       logs: '',
       logsError: ''
     },

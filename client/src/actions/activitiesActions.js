@@ -11,10 +11,6 @@ import {
   UPDATE_ACTIVITY_FAILURE,
   RESET_ADD_ACTIVITY,
   RESET_UPDATE_ACTIVITY,
-  GET_ACTIVITY_SUCCESS,
-  GET_ACTIVITY_FAILURE,
-  GET_ACTIVITY_BEGIN,
-  RESET_GET_ACTIVITY,
 } from './types';
 
 /*
@@ -34,9 +30,10 @@ export const addActivityFailure = (error) => ({
 });
 
 // UPDATE activity 
-export const updateActivitySuccess = (activity) => ({
+export const updateActivitySuccess = (activity, alert) => ({
   type: UPDATE_ACTIVITY_SUCCESS,
   activity,
+  alert
 });
 export const updateActivityFailure = (error) => ({
   type: UPDATE_ACTIVITY_FAILURE,
@@ -66,18 +63,6 @@ export const getActivitiesFailure = (error) => ({
   error,
 });
 
-// GET activity
-export const getActivityBegin = () => ({
-  type: GET_ACTIVITY_BEGIN
-});
-export const getActivitySuccess = (activity) => ({
-  type: GET_ACTIVITY_SUCCESS,
-  activity
-});
-export const getActivityFailure = (error) => ({
-  type: GET_ACTIVITY_FAILURE,
-  error
-});
 
 /*
 * ==========================================
@@ -97,25 +82,6 @@ export function getActivities(userId) {
         dispatch(getActivitiesFailure('something went wrong. Please try again.'));
       });
   };
-};
-
-//GET activity
-export const getActivity = (activityId) => (dispatch) => {
-  dispatch(getActivityBegin());
-  apiClient.getActivity(activityId)
-    .then(res => {
-      dispatch(getActivitySuccess(res.data));
-    })
-    .catch(err => {
-      if (err.response) {
-        window.location.href = '/';
-      }      
-    })
-};
-export const resetGetActivity = () => (dispatch) => {
-  dispatch({
-    type: RESET_GET_ACTIVITY
-  });
 };
 
 // POST activity
@@ -151,12 +117,15 @@ export function deleteActivity(userId, activityId) {
 // UPDATE activity
 export function updateActivity(activityId, values) {
   // Values for which status alerts aren't required
-  const ignore = ['active', 'totalDuration', 'logs'];
+  const noAlert = ['active', 'totalDuration', 'logs', 'goal'];
   return (dispatch) => {
     apiClient.updateActivity(activityId, values)
       .then(res => {
-        if (!ignore.some(el => Object.keys(values).includes(el))) {
-          dispatch(updateActivitySuccess(res.data))
+        if (noAlert.some(el => Object.keys(values).includes(el))) {
+          dispatch(updateActivitySuccess(res.data, false))
+        }
+        else {
+          dispatch(updateActivitySuccess(res.data));
         }
       })
       .catch(err => {

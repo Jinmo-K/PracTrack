@@ -1,5 +1,7 @@
 require('dotenv').config();
 const express = require("express");
+const http = require('http');
+const socketIO = require('socket.io');
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require('cors');
@@ -26,6 +28,26 @@ mongoose
   .catch(err => console.log(err));
 
 const app = express();
+const server = http.createServer(app);
+const io = socketIO(server);
+
+io.on('connection', socket => {
+  // Join room based on userId
+  socket.on('userConnected', (data) => {
+    // console.log('User connected', data.userId)
+    socket.join(data.userId);
+  });
+  // Emit the action to any other clients the user may be using
+  socket.on('new action', (data) => {
+    // console.log('new action:', data)
+    socket.to(data.userId).emit('action', data.action);
+  });
+
+  socket.on('disconnect', () => {
+    socket.leave;
+    // console.log('user disconnected')
+  })
+});
 
 // Bodyparser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -53,4 +75,4 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-module.exports = app.listen(port, () => console.log(`~*~*~*~* Server up and running on port ${port} !`));
+module.exports = server.listen(port, () => console.log(`~*~*~*~* Server up and running on port ${port} !`));

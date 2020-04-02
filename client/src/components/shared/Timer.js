@@ -18,12 +18,13 @@ const Timer = ({ activity, openNewLogForm, updateActivity }) => {
   const start = () => {
     const currTime = Date.now();
     setStartTime(currTime);
-    setIsActive(true);
     updateActivity(activity._id, { active: true, start: currTime });
+    setIsActive(true);
   };
 
   const stop = () => {
     let endTime = Date.now();
+    let startTime = Date.parse(activity.start);
     let log_data = {
       activity,
       startTime,
@@ -31,9 +32,9 @@ const Timer = ({ activity, openNewLogForm, updateActivity }) => {
       duration: endTime - startTime
     };
     setIsActive(false);
+    updateActivity(activity._id, { active: false });
     setDuration(0);
     setStartTime(undefined);
-    updateActivity(activity._id, { active: false });
     openNewLogForm(log_data);
   };
 
@@ -50,6 +51,18 @@ const Timer = ({ activity, openNewLogForm, updateActivity }) => {
     };
     // For matching the first next tick if timer was already active
     const timeToFirstTick = 1000 - (initialValue % 1000);
+
+    // Can occur when using across multiple devices
+    if (activity.active && !isActive) {
+      const currTime = Date.now();
+      setStartTime(currTime);
+      setIsActive(true);
+    }
+    else if (!activity.active && isActive) {
+      setIsActive(false);
+      setDuration(0);
+      setStartTime(undefined);
+    }
 
     // Start the timer
     if (isActive) {
@@ -72,15 +85,14 @@ const Timer = ({ activity, openNewLogForm, updateActivity }) => {
       clearTimeout(timeout);
       clearInterval(interval);
     }
-  }, [isActive, startTime, initialValue]);
+  }, [activity.active, isActive, startTime, initialValue]);
 
   return (
     <div onClick={preventClickPropogation}>
-      {/* <strong className='col-md-4'>{duration ? msToStopwatch(duration) : ''}</strong>   */}
       {(isActive)
         ? <button className='btn btn-danger btn-circle btn-xl timer-on' onClick={stop}>
-          <div>{duration ? msToStopwatch(duration) : '00:00:00'}</div>
-        </button>
+            <div>{duration ? msToStopwatch(duration) : '00:00:00'}</div>
+          </button>
         : <button className='btn btn-info btn-circle btn-xl' onClick={start}>start</button>
       }
     </div>

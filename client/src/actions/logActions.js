@@ -9,7 +9,7 @@ import {
   GET_ACTIVITY_LOGS_BEGIN,
   GET_ACTIVITY_LOGS_SUCCESS,
   GET_ACTIVITY_LOGS_FAILURE,
-  EMPTY_LOGS,
+  FLUSH_LOGS,
   RESET_GET_LOGS,
   RESET_UPDATE_LOG
 } from './types';
@@ -121,9 +121,9 @@ export function getActivityLogs(userId, activityId) {
 };
 
 // Reset the logs state to []
-export const emptyLogs = () => (dispatch) => {
+export const flushLogs = () => (dispatch) => {
   dispatch({
-    type: EMPTY_LOGS
+    type: FLUSH_LOGS
   })
 };
 

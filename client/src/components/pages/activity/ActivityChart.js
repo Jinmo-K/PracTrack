@@ -11,8 +11,17 @@ import { getTotalsPerDay } from '../../../utils/activityHelpers';
  *  Chart displaying activity's logs over time
  * ============================================
  */
-const ActivityChart = ({ logs }) => {
-  const [chart, setChart] = useState(undefined)
+const ActivityChart = ({ logs:newLogs }) => {
+  const [logs, setLogs] = useState(newLogs);
+  const [chart, setChart] = useState(undefined);
+
+  // Only re-render if logs have changed
+  if (
+    (newLogs.length !== logs.length) || 
+    (newLogs.length && logs.length && (newLogs[newLogs.length-1].duration !== logs[logs.length-1].duration))
+  ) {
+    setLogs(newLogs);
+  }
 
   useEffect(() => {
     const totals = getTotalsPerDay(logs);
@@ -84,5 +93,6 @@ const ActivityChart = ({ logs }) => {
 ActivityChart.propTypes = {
   logs: PropTypes.array.isRequired,
 }
+
 
 export default ActivityChart;

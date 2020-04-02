@@ -214,11 +214,8 @@ const LogTable = ({ activity, logs, updateLog, deleteLog, updateActivity }) => {
                       const duration = end.valueOf() - start.valueOf();
                       const newLog = {
                         ...newData,
-                        start: newData.start,
-                        end: newData.end,
                         duration
                       };  
-                      // Must update activity first in order to re-render title
                       updateActivity(activity._id, {
                         totalDuration: activity.totalDuration + duration - oldData.duration,
                         updated: Date.now()

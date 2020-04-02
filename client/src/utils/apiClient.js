@@ -26,9 +26,6 @@ const apiClient = {
   updateActivity(activityId, values) {
     return axios.put(ACTIVITIES_URL + activityId, values);
   },
-  getActivity(activityId) {
-    return axios.get(ACTIVITY_URL(activityId));
-  },
 
   // Logs
   addLog(activityId, log) {

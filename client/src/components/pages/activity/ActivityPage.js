@@ -9,12 +9,10 @@ import LogTable from './LogTable';
 // Functions
 import {
   getActivityLogs,
-  emptyLogs,
+  flushLogs,
   resetGetLogs,
   resetUpdateLog
 } from '../../../actions/logActions';
-import { getActivity, resetGetActivity } from '../../../actions/activitiesActions';
-
 
 /** 
  * ============================================
@@ -32,14 +30,10 @@ class ActivityPage extends Component {
   }
 
   componentDidMount() {
-    this.props.getActivity(this.activityId);
     this.props.getActivityLogs(this.props.auth.user.id, this.activityId);
   }
 
   componentDidUpdate() {
-    if (this.props.getActivityStatus === 'SUCCESS') {
-      this.props.resetGetActivity();
-    }
     if (this.props.getLogsStatus === 'SUCCESS') {
       this.props.resetGetLogs();
     }
@@ -49,19 +43,11 @@ class ActivityPage extends Component {
   }
 
   componentWillUnmount() {
-    this.props.emptyLogs();
-  }
-
-  // Only re-render if logs data changes or activity loaded
-  shouldComponentUpdate(nextProps, nextState) {
-    const curr = this.props.logs;
-    const updated = nextProps.logs;
-
-    return curr !== updated || this.props.getLogsStatus !== nextProps.getLogsStatus || nextProps.getActivityStatus === 'SUCCESS'
+    this.props.flushLogs();
   }
 
   render() {
-    if (this.props.getLogsStatus === 'LOADING' || this.props.getActivityStatus === 'LOADING') {
+    if (this.props.getLogsStatus === 'LOADING' || this.props.activitiesStatus === 'LOADING') {
       return <Loading />
     }
     else if (this.props.getLogsStatus === 'ERROR') {
@@ -71,40 +57,34 @@ class ActivityPage extends Component {
         </div>
       )
     }
-
-    const activity = this.props.activity;
-    // Only include logs for this activity
+    const activity = this.props.activities.find(el => el._id === this.activityId);
+    if (!activity) window.location.href = '/';
     const logs = this.props.logs.filter(el => el.activityId === activity._id);
 
     return (
       <div>
-        {/* Only render the page once activity has loaded */}
-        {this.props.activity.title
-        && <div>
-            {/* An activity with logs */}
-            {(this.props.logs.length)
-              ? <React.Fragment>
-                  <div className='row mb-5 mx-sm-auto'>
-                    <div className='col-lg-4 mt-4 p-4 p-sm-0'>
-                      <Title activity={activity} />
-                    </div>
-                    <div className='col-lg-8'>
-                      <ActivityChart logs={logs} />
-                    </div>
-                  </div>
-                  <LogTable logs={logs} activity={activity} />
-                </React.Fragment>
-              : 
-                // Activity without logs
-                <div className="text-center pt-0 pt-sm-3 mt-5 d-flex flex-column justify-content-center">
-                  <Title activity={activity} />
-                  <p className='lead mt-5'>
-                    You haven't logged any time yet.
-                  </p>
+        {/* An activity with logs */}
+        {(this.props.logs.length)
+          ? <React.Fragment>
+              <div className='row mb-5 mx-sm-auto'>
+                <div className='col-lg-4 mt-4 p-4 p-sm-0'>
+                  <Title activity={activity}/>
                 </div>
-            }
-          </div>
-          }
+                <div className='col-lg-8'>
+                  <ActivityChart logs={logs}/>
+                </div>
+              </div>
+              <LogTable logs={logs} activity={activity}/>
+            </React.Fragment>
+          : 
+            // Activity without logs
+            <div className="text-center pt-0 pt-sm-3 mt-5 d-flex flex-column justify-content-center">
+              <Title activity={activity}/>
+              <p className='lead mt-5'>
+                You haven't logged any time yet.
+              </p>
+            </div>
+        }
       </div>
     );
   }
@@ -120,7 +100,7 @@ ActivityPage.propTypes = {
   updateLogError: PropTypes.string.isRequired,
 
   getActivityLogs: PropTypes.func.isRequired,
-  emptyLogs: PropTypes.func.isRequired,
+  flushLogs: PropTypes.func.isRequired,
   resetGetLogs: PropTypes.func.isRequired,
   resetUpdateLog: PropTypes.func.isRequired,
 }
@@ -128,22 +108,20 @@ ActivityPage.propTypes = {
 const mapStateToProps = (state) => ({
   auth: state.auth,
   activities: state.activities,
-  activity: state.status.activity,
   logs: state.logs,
   getLogsStatus: state.status.logs,
   getLogsError: state.status.logsError,
   updateLogStatus: state.status.updateLog,
   updateLogError: state.status.updateLogError,
-  getActivityStatus: state.status.getActivity,
+  updateActivityStatus: state.status.updateActivity,
+  activitiesStatus: state.status.activities,
 });
 
 const mapDispatchToProps = {
   getActivityLogs,
-  getActivity,
-  resetGetActivity,
-  emptyLogs,
   resetGetLogs,
   resetUpdateLog,
+  flushLogs,
 };
 
 export default connect(

@@ -2,7 +2,7 @@ import {
   ADD_LOG_SUCCESS,
   GET_ACTIVITY_LOGS_SUCCESS,
   DELETE_LOG_SUCCESS,
-  EMPTY_LOGS,
+  FLUSH_LOGS,
   UPDATE_LOG_SUCCESS
 } from '../actions/types';
 
@@ -36,7 +36,7 @@ export default (state = initialState, action) => {
     case GET_ACTIVITY_LOGS_SUCCESS:
       return action.logs;
 
-    case EMPTY_LOGS:
+    case FLUSH_LOGS:
       return [];
 
     default:
