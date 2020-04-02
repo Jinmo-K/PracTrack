@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import ReactTimeAgo from 'react-time-ago';
 // Components
-import TextField from '@material-ui/core/TextField';
 import MaterialTable from 'material-table'
 import ProgressBar from '../../shared/ProgressBar';
 import Timer from '../../shared/Timer';
@@ -190,13 +188,11 @@ const ActivityTable = ({ activities, history, openNewActivityForm, updateActivit
           ? { onRowUpdate: (newData, oldData) =>
                 new Promise((resolve, reject) => {
                   setTimeout(() => {
-                    {
-                      if (!newData.title) reject();
-                      updateActivity(newData._id, {
-                        title: newData.title,
-                        updated: Date.now()
-                      });
-                    }
+                    if (!newData.title) reject();
+                    updateActivity(newData._id, {
+                      title: newData.title,
+                      updated: Date.now()
+                    });
                     resolve();
                   }, 500);
                 })

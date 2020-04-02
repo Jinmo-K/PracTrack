@@ -2,6 +2,7 @@ import {
   GET_ACTIVITIES_BEGIN,
   GET_ACTIVITIES_SUCCESS,
   GET_ACTIVITIES_FAILURE,
+  GET_ACTIVITY_SUCCESS,
   ADD_ACTIVITY_SUCCESS,
   ADD_ACTIVITY_FAILURE,
   DELETE_ACTIVITY_SUCCESS,
@@ -20,6 +21,11 @@ import {
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE,
   RESET_UPDATE_USER,
+  UPDATE_ACTIVITY_SUCCESS,
+  UPDATE_ACTIVITY_FAILURE,
+  RESET_UPDATE_ACTIVITY,
+  GET_ACTIVITY_BEGIN,
+  RESET_GET_ACTIVITY,
 } from '../actions/types';
 
 const LOADING = 'LOADING';
@@ -31,6 +37,8 @@ const initialState = {
   activitiesError: '',
   addActivity: '',
   addActivityError: '',
+  updateActivity: '',
+  updateActivityError: '',
   activity: {},
   deleteActivity: '',
   deleteActivityError: '',
@@ -57,6 +65,20 @@ export default (state = initialState, action) => {
       activities: ERROR,
       activitiesError: action.error,
     },
+    [GET_ACTIVITY_BEGIN]: {
+      getActivity: LOADING,
+      getActivityError: '',
+      activity: {}
+    },
+    [GET_ACTIVITY_SUCCESS]: {
+      getActivity: SUCCESS,
+      getActivityError: '',
+      activity: action.activity,
+    },
+    [RESET_GET_ACTIVITY]: {
+      getActivity: '',
+      getActivityError: '',
+    },
     [ADD_ACTIVITY_SUCCESS]: {
       addActivity: SUCCESS,
       addActivityError: '',
@@ -65,7 +87,6 @@ export default (state = initialState, action) => {
     [ADD_ACTIVITY_FAILURE]: {
       addActivity: ERROR,
       addActivityError: action.error,
-      activity: action.activity,
     },
     [RESET_ADD_ACTIVITY]: {
       addActivity: '',
@@ -79,6 +100,19 @@ export default (state = initialState, action) => {
     [DELETE_ACTIVITY_FAILURE]: {
       deleteActivity: ERROR,
       deleteActivityError: action.error,
+    },
+    [UPDATE_ACTIVITY_SUCCESS]: {
+      updateActivity: SUCCESS,
+      updateActivityError: '',
+      activity: action.activity
+    },
+    [UPDATE_ACTIVITY_FAILURE]: {
+      updateActivity: ERROR,
+      updateActivityError: action.error,
+    },
+    [RESET_UPDATE_ACTIVITY]: {
+      updateActivity: '',
+      updateActivityError: '',
     },
 
     // Log statuses--------------------

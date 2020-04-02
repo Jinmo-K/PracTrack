@@ -5,6 +5,7 @@ const LOGIN_URL = '/api/users/login';
 const USER_URL = (userId) => '/api/users/' + userId;
 const USER_ACTIVITIES_URL = (userId) => '/api/users/' + userId + '/activities/';
 const ACTIVITIES_URL = '/api/activities/';
+const ACTIVITY_URL = (activityId) => '/api/activities/' + activityId;
 const USER_ACTIVITY_LOGS_URL = (userId, activityId) => '/api/users/' + userId + '/activities/' + activityId + '/logs';
 const ACTIVITY_LOGS_URL = (activityId) => '/api/activities/' + activityId + '/logs/';
 
@@ -24,6 +25,9 @@ const apiClient = {
   },
   updateActivity(activityId, values) {
     return axios.put(ACTIVITIES_URL + activityId, values);
+  },
+  getActivity(activityId) {
+    return axios.get(ACTIVITY_URL(activityId));
   },
 
   // Logs

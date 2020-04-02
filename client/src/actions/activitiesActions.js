@@ -10,6 +10,11 @@ import {
   UPDATE_ACTIVITY_SUCCESS,
   UPDATE_ACTIVITY_FAILURE,
   RESET_ADD_ACTIVITY,
+  RESET_UPDATE_ACTIVITY,
+  GET_ACTIVITY_SUCCESS,
+  GET_ACTIVITY_FAILURE,
+  GET_ACTIVITY_BEGIN,
+  RESET_GET_ACTIVITY,
 } from './types';
 
 /*
@@ -61,6 +66,18 @@ export const getActivitiesFailure = (error) => ({
   error,
 });
 
+// GET activity
+export const getActivityBegin = () => ({
+  type: GET_ACTIVITY_BEGIN
+});
+export const getActivitySuccess = (activity) => ({
+  type: GET_ACTIVITY_SUCCESS,
+  activity
+});
+export const getActivityFailure = (error) => ({
+  type: GET_ACTIVITY_FAILURE,
+  error
+});
 
 /*
 * ==========================================
@@ -82,6 +99,25 @@ export function getActivities(userId) {
   };
 };
 
+//GET activity
+export const getActivity = (activityId) => (dispatch) => {
+  dispatch(getActivityBegin());
+  apiClient.getActivity(activityId)
+    .then(res => {
+      dispatch(getActivitySuccess(res.data));
+    })
+    .catch(err => {
+      if (err.response) {
+        window.location.href = '/';
+      }      
+    })
+};
+export const resetGetActivity = () => (dispatch) => {
+  dispatch({
+    type: RESET_GET_ACTIVITY
+  });
+};
+
 // POST activity
 export function addActivity(userId, activity) {
   return (dispatch) => {
@@ -94,7 +130,7 @@ export function addActivity(userId, activity) {
       });
   };
 };
-export const resetAddActivityStatus = () => (dispatch) => {
+export const resetAddActivity = () => (dispatch) => {
   dispatch({
     type: RESET_ADD_ACTIVITY
   })
@@ -114,13 +150,22 @@ export function deleteActivity(userId, activityId) {
 };
 // UPDATE activity
 export function updateActivity(activityId, values) {
+  // Values for which status alerts aren't required
+  const ignore = ['active', 'totalDuration', 'logs'];
   return (dispatch) => {
     apiClient.updateActivity(activityId, values)
       .then(res => {
-        dispatch(updateActivitySuccess(res.data))
+        if (!ignore.some(el => Object.keys(values).includes(el))) {
+          dispatch(updateActivitySuccess(res.data))
+        }
       })
       .catch(err => {
-        dispatch(updateActivityFailure('something went wrong. Please try again.'))
+        dispatch(updateActivityFailure(err.response.data.message))
       });
   }
+};
+export const resetUpdateActivity = () => (dispatch) => {
+  dispatch({
+    type: RESET_UPDATE_ACTIVITY
+  });
 };

@@ -2,7 +2,7 @@ import axios from "axios";
 import apiClient from './apiClient';
 import jwt_decode from "jwt-decode";
 import store from '../store';
-import { setCurrentUser, logoutUser, resetUpdateUser } from "../actions/authActions";
+import { setCurrentUser, logoutUser } from "../actions/authActions";
 
 export const setAuthToken = token => {
   if (token) {

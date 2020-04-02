@@ -5,14 +5,11 @@ import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Collapse from '@material-ui/core/Collapse';
 import Fade from '@material-ui/core/Fade';
-import Icon from '@material-ui/core/Icon';
 import Timer from '../../shared/Timer';
 import ProgressBar from '../../shared/ProgressBar';
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 // Functions
 import { msToHrsMinSec, hrToMillisec } from '../../../utils/timeFunctions';
 import { updateActivity } from '../../../actions/activitiesActions';
-import { useInput } from '../../../hooks/useInput';
 
 
 /** 

@@ -1,7 +1,6 @@
 import { 
   SET_CURRENT_USER, 
-  USER_LOADING, 
-  UPDATE_USER_SUCCESS 
+  USER_LOADING,
 } from "../actions/types";
 
 const isEmpty = require("is-empty");

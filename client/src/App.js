@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import store from './store';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import jwt_decode from "jwt-decode";
 // Components
 import Landing from "./components/pages/Landing";
 import Register from "./components/pages/user/Register";
@@ -16,9 +14,9 @@ import PieChart from './components/pages/dashboard/PieChart';
 import Settings from './components/pages/user/Settings';
 import Loading from'./components/shared/Loading';
 // Functions
-import { setCurrentUser, logoutUser, resetUpdateUser } from "./actions/authActions";
-import { getActivities, resetAddActivityStatus } from './actions/activitiesActions';
-import { setAuthToken, checkToken, checkForToken } from "./utils/authHelpers";
+import { logoutUser, resetUpdateUser } from "./actions/authActions";
+import { getActivities, resetAddActivity, resetUpdateActivity } from './actions/activitiesActions';
+import { checkForToken } from "./utils/authHelpers";
 // Styles
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
@@ -45,11 +43,11 @@ class App extends Component {
 
     if (status.addActivity === 'SUCCESS') {
       this.displayFlash('Created new activity: '+ status.activity.title + ' !', 'alert-success');
-      this.props.resetAddActivityStatus();
+      this.props.resetAddActivity();
     }
     if (status.addActivity === 'ERROR') {
       this.displayFlash('Error! Unable to create new activity: ' + status.addActivityError, 'alert-danger');
-      this.props.resetAddActivityStatus();
+      this.props.resetAddActivity();
     }
     if(status.updateUser === 'SUCCESS') {
       this.displayFlash('Successfully updated profile!', 'alert-success');
@@ -58,6 +56,14 @@ class App extends Component {
     if (status.updateUser === 'ERROR') {
       this.displayFlash('Error! Unable to update profile: ' + status.updateUserError, 'alert-danger');
       this.props.resetUpdateUser();
+    }
+    if (status.updateActivity === 'SUCCESS') {
+      this.displayFlash('Updated activity: '+ status.activity.title + ' !', 'alert-success');
+      this.props.resetUpdateActivity();
+    }
+    if (status.updateActivity === 'ERROR') {
+      this.displayFlash('Error! Unable to update activity: ' + status.updateActivityError, 'alert-danger');
+      this.props.resetUpdateActivity();
     }
   }
 
@@ -123,7 +129,8 @@ App.propTypes = {
 
   logoutUser: PropTypes.func.isRequired,
   getActivities: PropTypes.func.isRequired,
-  resetAddActivityStatus: PropTypes.func.isRequired,
+  resetAddActivity: PropTypes.func.isRequired,
+  resetUpdateActivity: PropTypes.func.isRequired,
   resetUpdateUser: PropTypes.func.isRequired,
 };
 
@@ -136,7 +143,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   logoutUser,
   getActivities,
-  resetAddActivityStatus,
+  resetAddActivity,
+  resetUpdateActivity,
   resetUpdateUser,
 };
 

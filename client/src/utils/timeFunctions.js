@@ -4,10 +4,10 @@
  * @return {string}    The time formatted as '_ hrs _ min _ sec '
  */
 export function msToHrsMinSec(ms) {
-  const timeInHrs = ms / 3600000;
-  const hrsRemaining = Math.floor(timeInHrs);
-  const minRemaining = Math.floor((timeInHrs - hrsRemaining) * 60);
-  const secRemaining = Math.round((((timeInHrs - hrsRemaining) * 60) - minRemaining) * 60);
+  var timeInHrs = ms / 3600000;
+  var hrsRemaining = Math.floor(timeInHrs);
+  var minRemaining = Math.floor((timeInHrs - hrsRemaining) * 60);
+  var secRemaining = Math.round((((timeInHrs - hrsRemaining) * 60) - minRemaining) * 60);
   if (secRemaining === 60) {
     secRemaining = 0;
     minRemaining++;

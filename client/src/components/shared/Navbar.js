@@ -60,7 +60,7 @@ const Navbar = ({ auth, logoutUser, history }) => {
       <div className='d-block d-sm-none w-100' style={{fontWeight: 'bold'}}> 
         <Collapse in={isOpen} collapsedHeight={0} timeout={200}>
           <Fade in={isOpen} timeout={400}>
-            <div className='pl-4 pr-2 mb-2 position-absolute'>
+            <div className='pl-4 pr-2 mb-2'>
               <ul className='navbar-nav'>
                   <li className='nav-item align-items-center'>
                     <Link to='/settings' className='nav-link nav-btn pb-0'>
