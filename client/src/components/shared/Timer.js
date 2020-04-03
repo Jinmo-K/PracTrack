@@ -44,7 +44,8 @@ const Timer = ({ activity:nextActivity, openNewLogForm, updateActivity }) => {
     e.stopPropagation();
   }
 
-  if (nextActivity.active !== activity.active) {
+  // Update activity if active state has changed, or if different activity (can happen when adding to the list)
+  if (nextActivity.active !== activity.active || nextActivity.title !== activity.title) {
     setActivity(nextActivity)
   }
   // Can occur when using across multiple devices
