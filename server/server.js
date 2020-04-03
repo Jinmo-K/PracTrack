@@ -55,9 +55,15 @@ app.use(bodyParser.json());
 app.use(cors());
 // Passport middleware
 app.use(passport.initialize());
+
 // Routes
 app.use("/api/users", usersRouter);
 app.use("/api/activities", activitiesRouter);
+// For cronjob
+app.get('/ping', (req, res) => {
+  return res.send('ping');
+});
+
 // Error handler
 app.use(function (err, req, res, next) {
   console.log(err)
