@@ -7,7 +7,8 @@ import { updateActivity } from '../../actions/activitiesActions';
 import { msToStopwatch } from '../../utils/timeFunctions';
 
 // Stopwatch component 
-const Timer = ({ activity, openNewLogForm, updateActivity }) => {
+const Timer = ({ activity:nextActivity, openNewLogForm, updateActivity }) => {
+  const [activity, setActivity] = useState({...nextActivity});
   // If an activity is active, calculate duration since it started
   const initialValue = activity.active ? Date.now() - Date.parse(activity.start) : 0;
   const [duration, setDuration] = useState(initialValue);
@@ -43,6 +44,20 @@ const Timer = ({ activity, openNewLogForm, updateActivity }) => {
     e.stopPropagation();
   }
 
+  if (nextActivity.active !== activity.active) {
+    setActivity(nextActivity)
+  }
+  // Can occur when using across multiple devices
+  if (nextActivity.active && !activity.active && !isActive) {
+    setStartTime(Date.parse(nextActivity.start));
+    setIsActive(true);
+  }
+  else if (!nextActivity.active && activity.active && isActive) {
+    setIsActive(false);
+    setDuration(0);
+    setStartTime(undefined);
+  }
+
   useEffect(() => {
     let interval = null;
     let timeout = null;
@@ -51,18 +66,6 @@ const Timer = ({ activity, openNewLogForm, updateActivity }) => {
     };
     // For matching the first next tick if timer was already active
     const timeToFirstTick = 1000 - (initialValue % 1000);
-
-    // Can occur when using across multiple devices
-    if (activity.active && !isActive) {
-      const currTime = Date.now();
-      setStartTime(currTime);
-      setIsActive(true);
-    }
-    else if (!activity.active && isActive) {
-      setIsActive(false);
-      setDuration(0);
-      setStartTime(undefined);
-    }
 
     // Start the timer
     if (isActive) {
@@ -85,7 +88,7 @@ const Timer = ({ activity, openNewLogForm, updateActivity }) => {
       clearTimeout(timeout);
       clearInterval(interval);
     }
-  }, [activity.active, isActive, startTime, initialValue]);
+  }, [activity, nextActivity, isActive, startTime, initialValue]);
 
   return (
     <div onClick={preventClickPropogation}>
@@ -105,12 +108,16 @@ Timer.propTypes = {
   updateActivity: PropTypes.func.isRequired,
 }
 
+const mapStateToProps = (state) => ({
+  updateActivityStatus: state.status.updateActivity
+});
+
 const mapDispatchToProps = {
   openNewLogForm,
   updateActivity,
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(Timer);
