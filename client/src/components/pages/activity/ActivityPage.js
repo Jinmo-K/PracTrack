@@ -64,7 +64,7 @@ class ActivityPage extends Component {
     return (
       <div>
         {/* An activity with logs */}
-        {(this.props.logs.length)
+        {(logs.length)
           ? <React.Fragment>
               <div className='row mb-5 mx-sm-auto'>
                 <div className='col-lg-4 mt-4 p-4 p-sm-0'>
