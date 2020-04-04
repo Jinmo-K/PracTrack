@@ -52,13 +52,29 @@ class ActivityPage extends Component {
     }
     else if (this.props.getLogsStatus === 'ERROR') {
       return (
-        <div>
-          Error! {this.props.getLogsError}
+        <div className="text-center pt-0 pt-sm-3 mt-5 d-flex flex-column justify-content-center">
+          <p className='lead mt-5'>
+            Error! {this.props.getLogsError}
+          </p>
         </div>
       )
     }
+
     const activity = this.props.activities.find(el => el._id === this.activityId);
-    if (!activity) window.location.href = '/';
+    if (!activity) {
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 1000); 
+    }
+    if (!activity) {
+      return (
+        <div className="text-center pt-0 pt-sm-3 mt-5 d-flex flex-column justify-content-center">
+          <p className='lead mt-5'>
+            404 Activity does not exist. Redirecting..
+          </p>
+        </div>
+      )
+    }
     const logs = this.props.logs.filter(el => el.activityId === activity._id);
 
     return (

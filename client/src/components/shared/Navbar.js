@@ -23,7 +23,7 @@ const Navbar = ({ auth, logoutUser, history }) => {
       setPath(history.location.pathname);
       setIsOpen(false);
     }
-  }, [history.location.pathname]);
+  }, [history.location.pathname, path]);
 
   return (
     <div className='navbar navbar-light navbar-expand-sm sticky-top p-0'>

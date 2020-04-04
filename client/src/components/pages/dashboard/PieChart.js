@@ -16,17 +16,9 @@ import { msToHrsMinSec } from '../../../utils/timeFunctions';
  */
 const PieChart = ({ activities, location }) => {
   const [sorted, setSorted] = useState(sortByDuration(activities));
-  const currTotal = activities.reduce((acc, x) => { return acc + x.totalDuration }, 0);
-  const [total, setTotal] = useState(currTotal);
-  const [chart, setChart] = useState(undefined);
-  const colors = getColours(activities.length);
-
-  // Only re-render the chart if an activity duration or number of activities has changed
-  if (currTotal !== total || sorted.length !== activities.length) {
-    // Update the total duration, and re-sort the activities
-    setTotal(currTotal);
-    setSorted(sortByDuration(activities));
-  }
+  const [total, setTotal] = useState(activities.reduce((acc, x) => { return acc + x.totalDuration }, 0));
+  const [, setChart] = useState(undefined);
+  const [colors, setColors] = useState(getColours(activities.length));
 
   // Function to display user's top 3 activities
   const displayTop = () => {
@@ -42,51 +34,66 @@ const PieChart = ({ activities, location }) => {
     }));
   };
 
+
+  // Check if an activity duration or number of activities has changed => re-render the chart
+  useEffect(() => {
+    let currTotal = activities.reduce((acc, x) => { return acc + x.totalDuration }, 0);
+    if (currTotal !== total  || sorted.length !== activities.length) {
+      // Update the total duration, and re-sort the activities
+      setTotal(currTotal);
+      setSorted(sortByDuration(activities));
+      setColors(getColours(activities.length));
+    }
+  }, [activities, sorted, total]);
+
+  // Rendering the chart
   useEffect(() => {
     // Destroy previous chart to prevent drawing over it
-    if (chart !== undefined) {
-      chart.destroy()
-    }
+    // if (chart !== undefined) {
+    //   chart.destroy()
+    // }
     var canvas = document.getElementById("pieChart");
     if (canvas) {
-      setChart(new Chart(document.getElementById("pieChart"), {
-        type: 'doughnut',
-        data: {
-          labels: sorted.map(activity => { return activity.title }),
-          datasets: [{
-            data: sorted.map(activity => {
-              return ((activity.totalDuration / total) * 100).toFixed(2);
-            }),
-            backgroundColor: colors
-          }],
-          fillOpacity: 0.3
-        },
-        options: {
-          responsive: true,
-          legend: {
-            display: false
+      setChart(chart => {
+        if (chart !== undefined) chart.destroy();
+        return new Chart(document.getElementById("pieChart"), {
+          type: 'doughnut',
+          data: {
+            labels: sorted.map(activity => { return activity.title }),
+            datasets: [{
+              data: sorted.map(activity => {
+                return ((activity.totalDuration / total) * 100).toFixed(2);
+              }),
+              backgroundColor: colors
+            }],
+            fillOpacity: 0.3
           },
-          aspectRatio: 1,
-          maintainAspectRatio: true,
-          tooltips: {
-            callbacks: {
-              title: function (tooltipItem, data) {
-                return data['labels'][tooltipItem[0]['index']];
-              },
-              label: function (tooltipItem, data) {
-                return ' ' + msToHrsMinSec(sorted[tooltipItem['index']]['totalDuration']);
+          options: {
+            responsive: true,
+            legend: {
+              display: false
+            },
+            aspectRatio: 1,
+            maintainAspectRatio: true,
+            tooltips: {
+              callbacks: {
+                title: function (tooltipItem, data) {
+                  return data['labels'][tooltipItem[0]['index']];
+                },
+                label: function (tooltipItem, data) {
+                  return ' ' + msToHrsMinSec(sorted[tooltipItem['index']]['totalDuration']);
+                }
               }
             }
-          }
-        },
-
-      }));
+          },
+        });
+      });
     }
-  }, [total, sorted]);
+  }, [total, sorted, colors]);
 
   return (
     <div>
-      {(currTotal > 0)
+      {(total > 0)
         ? <div className='row justify-content-center align-items-center mt-4'
                style={{ 'display': location.pathname === '/' ? 'flex' : 'none' }}>
             <div className='col-5 col-sm-5 col-md-4 col-lg-3 col-xl-3-pie p-4 mx-0'>

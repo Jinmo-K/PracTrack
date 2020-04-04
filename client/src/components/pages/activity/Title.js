@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 // Components
 import TextField from '@material-ui/core/TextField';
@@ -44,7 +44,7 @@ const Title = ({ activity, updateActivity }) => {
 
   return (
     <div>
-      <div className='row justify-content-center mb-4 align-items-center'> 
+      <div className='row justify-content-center mb-4 align-items-center d-sm-inline-flex d-lg-flex'> 
         <div className={(activity.logs.length) ? 'col-12 col-sm text-center text-sm-left' : 'col-12 text-center'}>
           <h1 className="display-4 text-sm-break">{activity.title}</h1>
         </div>

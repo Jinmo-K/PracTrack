@@ -13,7 +13,6 @@ import ActivitiesList from "./components/pages/dashboard/ActivitiesList";
 import AppModal from './components/forms/AppModal';
 import PieChart from './components/pages/dashboard/PieChart';
 import Settings from './components/pages/user/Settings';
-import Loading from'./components/shared/Loading';
 // Functions
 import { logoutUser, resetUpdateUser } from "./actions/authActions";
 import { getActivities, resetAddActivity, resetUpdateActivity } from './actions/activitiesActions';

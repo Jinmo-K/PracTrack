@@ -7,7 +7,7 @@ import Collapse from '@material-ui/core/Collapse';
 import Fade from '@material-ui/core/Fade';
 // Functions
 import { useInput } from '../../../hooks/useInput';
-import { updateUser, resetAuthErrors, resetUpdateUser } from '../../../actions/authActions';
+import { updateUser, resetAuthErrors } from '../../../actions/authActions';
 
 
 /** 
@@ -15,7 +15,7 @@ import { updateUser, resetAuthErrors, resetUpdateUser } from '../../../actions/a
  *   Edit user information 
  * ============================================
  */
-const Settings = ({ user, errors, updateUser, resetAuthErrors, updateUserStatus, resetUpdateUser }) => {
+const Settings = ({ user, errors, updateUser, resetAuthErrors, updateUserStatus }) => {
   const {value:name, bindProps:bindName, setValue:setName} = useInput(user.name);
   const {value:email, bindProps:bindEmail, setValue:setEmail} = useInput(user.email);
   const {value:currPassword, bindProps:bindCurrPw, setValue: setCurrPw} = useInput('');
@@ -44,6 +44,7 @@ const Settings = ({ user, errors, updateUser, resetAuthErrors, updateUserStatus,
     setIsChangingPw(!isChangingPw);
   }
 
+  // Check for changed values to enable submit button
   useEffect(() => {
     if ((name !== user.name) || (email !== user.email) || (password && password2)) {
       setDirtyFlag(true);
@@ -51,6 +52,9 @@ const Settings = ({ user, errors, updateUser, resetAuthErrors, updateUserStatus,
     else {
       setDirtyFlag(false);
     }
+  }, [user, name, email, password, password2])
+
+  useEffect(() => {
     if (updateUserStatus === 'SUCCESS') {
       setName(user.name);
       setEmail(user.email);
@@ -64,7 +68,7 @@ const Settings = ({ user, errors, updateUser, resetAuthErrors, updateUserStatus,
         resetAuthErrors(['name', 'email', 'currPassword', 'password', 'password2'])
       }
     }
-  }, [user, name, email, currPassword, password, password2, updateUserStatus, errors])
+  }, [user, updateUserStatus, errors, resetAuthErrors, setCurrPw, setEmail, setName, setPw, setPw2])
 
   return (
     <div className='row mt-3 justify-content-center login mx-auto align-items-center'>
@@ -176,7 +180,6 @@ Settings.propTypes = {
   updateUser: PropTypes.func.isRequired,
   resetAuthErrors: PropTypes.func.isRequired,
   updateUserStatus: PropTypes.string.isRequired,
-  resetUpdateUser: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
@@ -188,7 +191,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   updateUser,
   resetAuthErrors,
-  resetUpdateUser,
 }
 
 export default connect(
