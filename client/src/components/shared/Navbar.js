@@ -39,18 +39,29 @@ const Navbar = ({ auth, logoutUser, history }) => {
           {(auth.isAuthenticated)
             ? <ul className='navbar-nav ml-auto'>
                 <li className='nav-item'>
-                  <Link to='/settings' className='nav-link nav-btn pb-0'><i className='material-icons'>account_circle</i></Link>
+                  <Link to='/settings' className='nav-link nav-btn pb-0'>
+                    <i className='material-icons'>account_circle</i>
+                  </Link>
                 </li>
                 <li className='nav-item'>
-                  <Link to='/' className='nav-link nav-btn pb-0' onClick={onLogoutClick}>Logout</Link>
+                  <Link to='/' 
+                        className='nav-link nav-btn pb-0' 
+                        onClick={onLogoutClick}
+                  >
+                    Logout
+                  </Link>
                 </li>
               </ul>
             : <ul className='navbar-nav ml-auto'>
                 <li className='nav-item'>
-                  <Link to='/' className='nav-link nav-btn pb-0'>Login</Link>
+                  <Link to='/' className='nav-link nav-btn pb-0'>
+                    Login
+                  </Link>
                 </li>
                 <li className='nav-item'>
-                  <Link to='/register' className='nav-link nav-btn pb-0'>Signup</Link>
+                  <Link to='/register' className='nav-link nav-btn pb-0'>
+                    Signup
+                  </Link>
                 </li>
               </ul>
           }
@@ -61,7 +72,8 @@ const Navbar = ({ auth, logoutUser, history }) => {
         <Collapse in={isOpen} collapsedHeight={0} timeout={200}>
           <Fade in={isOpen} timeout={400}>
             <div className='pl-4 pr-2 mb-2'>
-              <ul className='navbar-nav'>
+              {(auth.isAuthenticated)
+              ? <ul className='navbar-nav'>
                   <li className='nav-item align-items-center'>
                     <Link to='/settings' className='nav-link nav-btn pb-0'>
                       Settings
@@ -77,6 +89,21 @@ const Navbar = ({ auth, logoutUser, history }) => {
                     </Link>
                   </li>
                 </ul>
+              :
+                <ul className='navbar-nav'>
+                  <li className='nav-item align-items-center'>
+                    <Link to='/' className='nav-link nav-btn pb-0'>
+                      Login
+                    </Link>
+                  </li>
+                  <span className="border" style={{maxWidth: '10ch'}}></span>
+                  <li className='nav-item'>
+                    <Link to='/register' className='nav-link nav-btn pb-0'>
+                      Signup
+                    </Link>
+                  </li>
+                </ul>
+              }
             </div> 
           </Fade>
         </Collapse>
