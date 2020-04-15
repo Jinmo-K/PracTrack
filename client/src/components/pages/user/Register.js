@@ -3,7 +3,7 @@ import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import TextField from '@material-ui/core/TextField';
 import { connect } from "react-redux";
-import { registerUser } from "../../../actions/authActions";
+import { registerUser, resetAuthErrors } from "../../../actions/authActions";
 
 class Register extends Component {
   constructor() {
@@ -29,6 +29,10 @@ class Register extends Component {
         errors: nextProps.errors
       });
     }
+  }
+
+  componentWillUnmount() {
+    this.props.resetAuthErrors(['name', 'email', 'password', 'password2']);
   }
 
   onChange = e => {
@@ -59,10 +63,13 @@ class Register extends Component {
 
     return (
       <div className='row justify-content-center login mx-auto'>
-        <form className='col-sm-10 col-md-7 col-lg-5 p-2 p-sm-5 mt-sm-2' noValidate onSubmit={this.onSubmit}>
+        <form className='col-sm-10 col-md-7 col-lg-5 p-2 mt-sm-2 pt-5' noValidate onSubmit={this.onSubmit}>
           <h2 className='sr-only'>Login form</h2>
-          <div className='login-header'>
-            <h2>Sign up</h2>
+          <div className='login-header' style={{marginRight: "42px"}}>
+            <h2>
+              <img className="pb-2" src="../../../images/logo-md.png" alt="PracTrack logo"></img>
+              &nbsp;Sign up
+            </h2>
           </div>
 
           <div className='form-group'>
@@ -133,6 +140,7 @@ class Register extends Component {
 
 Register.propTypes = {
   registerUser: PropTypes.func.isRequired,
+  resetAuthErrors: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -144,5 +152,5 @@ const mapStateToProps = state => ({
 
 export default withRouter(connect(
   mapStateToProps,
-  { registerUser }
+  { registerUser, resetAuthErrors }
 )(Register));

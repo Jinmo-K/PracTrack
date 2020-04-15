@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import TextField from '@material-ui/core/TextField';
 // Functions
-import { loginUser } from "../../actions/authActions";
+import { loginUser, resetAuthErrors } from "../../actions/authActions";
 
 /** 
  * ============================================
@@ -35,6 +35,10 @@ class Landing extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.props.resetAuthErrors(['email', 'password']);
+  }
+
   onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
   };
@@ -47,7 +51,7 @@ class Landing extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-
+    
     const userData = {
       email: this.state.email,
       password: this.state.password
@@ -58,15 +62,14 @@ class Landing extends Component {
 
   render() {
     const { errors } = this.state;
-
     return (
       <div className='row justify-content-center login mx-auto'>
-        <form className='col-sm-10 col-md-7 col-lg-5 p-2 p-sm-5 mt-sm-2' noValidate onSubmit={this.onSubmit}>
+        <form className='col-sm-10 col-md-7 col-lg-5 p-2 mt-sm-2 pt-5' noValidate onSubmit={this.onSubmit}>
           <h2 className='sr-only'>Login form</h2>
-          <div className='login-header'>
+          <div className='login-header' style={{marginRight: "20px"}}>
             <h2>
               <img className="pb-2" src="../../../images/logo-md.png" alt="PracTrack logo"></img> 
-              &ensp;Login to continue
+              &nbsp;Login to continue
             </h2>
           </div>
           <div className='form-group'>
@@ -110,6 +113,7 @@ class Landing extends Component {
 Landing.propTypes = {
   auth: PropTypes.object.isRequired,
   loginUser: PropTypes.func.isRequired,
+  resetAuthErrors: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired
 };
 
@@ -120,5 +124,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { loginUser }
+  { loginUser, resetAuthErrors }
 )(Landing);
