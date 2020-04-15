@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import TextField from '@material-ui/core/TextField';
 // Functions
 import { loginUser } from "../../actions/authActions";
-
 
 /** 
  * ============================================
@@ -39,6 +39,12 @@ class Landing extends Component {
     this.setState({ [e.target.id]: e.target.value });
   };
 
+  onFocus = e => {
+    this.setState({ 
+      errors: {...this.state.errors, [e.target.id]: ''}
+    });
+  };
+
   onSubmit = e => {
     e.preventDefault();
 
@@ -58,40 +64,41 @@ class Landing extends Component {
         <form className='col-sm-10 col-md-7 col-lg-5 p-2 p-sm-5 mt-sm-2' noValidate onSubmit={this.onSubmit}>
           <h2 className='sr-only'>Login form</h2>
           <div className='login-header'>
-            <h1>Login to continue</h1>
+            <h2>
+              <img className="pb-2" src="../../../images/logo-md.png" alt="PracTrack logo"></img> 
+              &ensp;Login to continue
+            </h2>
           </div>
           <div className='form-group'>
-            <input 
-              onChange={this.onChange}
-              value={this.state.email}
-              error={errors.email}
-              className='form-control' 
-              type='email' 
-              name='email' 
+            <TextField 
+              fullWidth
               id='email'
-              placeholder='Email' 
-            />
-            <span className="error-text">
-              {errors.email}
-            </span>
-          </div>
-          <div className='form-group'>
-            <input 
+              label='Email'
+              variant='outlined'
+              error={!!errors.email}
+              helperText={errors.email}
+              value={this.state.email}
+              onFocus={this.onFocus}
+              type='email'
               onChange={this.onChange}
-              value={this.state.password}
-              error={errors.password}
-              className='form-control' 
-              id='password'
-              type='password' 
-              name='password' 
-              placeholder='Password' 
             />
-            <span className="error-text">
-              {errors.password}
-            </span>
           </div>
           <div className='form-group'>
-            <button className='btn btn-block' type='submit'>Login</button>
+            <TextField 
+              fullWidth
+              label='Password'
+              id="password"
+              variant='outlined'
+              type='password'
+              error={!!errors.password}
+              helperText={errors.password}
+              value={this.state.password}
+              onFocus={this.onFocus}
+              onChange={this.onChange}
+            />
+          </div>
+          <div className='form-group'>
+            <button className='btn btn-block' type='submit' style={{fontWeight: 500}}>Login</button>
           </div>
           <Link className='forgot' to='/register'>DON'T HAVE AN ACCOUNT? <u>CLICK HERE</u> TO SIGN UP</Link>
         </form>

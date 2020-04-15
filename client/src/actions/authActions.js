@@ -7,6 +7,8 @@ import {
   UPDATE_USER_SUCCESS,
   RESET_AUTH_ERRORS,
   RESET_UPDATE_USER,
+  NEW_USER_SUCCESS,
+  RESET_NEW_USER,
 } from './types';
 import apiClient from "../utils/apiClient";
 import jwt_decode from "jwt-decode";
@@ -27,7 +29,12 @@ const updateUserFailure = (error) => ({
 export const registerUser = (userData, history) => dispatch => {
   axios
     .post("/api/users/register", userData)
-    .then(res => history.push("/login"))
+    .then(res => {
+      dispatch({
+        type: NEW_USER_SUCCESS
+      })
+      history.push("/login")
+    })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -54,6 +61,11 @@ export const loginUser = (userData) => dispatch => {
         payload: err.response.data
       })
     );
+};
+export const resetNewUserStatus = () => (dispatch) => {
+  dispatch({
+    type: RESET_NEW_USER
+  })
 };
 
 // Set logged in user

@@ -14,7 +14,7 @@ import AppModal from './components/forms/AppModal';
 import PieChart from './components/pages/dashboard/PieChart';
 import Settings from './components/pages/user/Settings';
 // Functions
-import { logoutUser, resetUpdateUser } from "./actions/authActions";
+import { logoutUser, resetUpdateUser, resetNewUserStatus } from "./actions/authActions";
 import { getActivities, resetAddActivity, resetUpdateActivity } from './actions/activitiesActions';
 import { checkForToken } from "./utils/authHelpers";
 // Styles
@@ -75,6 +75,10 @@ class App extends Component {
       this.displayFlash('Error! Unable to update activity: ' + status.updateActivityError, 'alert-danger');
       this.props.resetUpdateActivity();
     }
+    if (status.newUser === 'SUCCESS') {
+      this.displayFlash('Registration successful! Please login to continue', 'alert-success');
+      this.props.resetNewUserStatus();
+    }
   }
 
   displayFlash = (message, type) => {
@@ -93,41 +97,41 @@ class App extends Component {
 
   render() {
     return (
-        <Router>
-            <Navbar />
-            {!this.state.loading
-            &&
-            <div className='container-flex app-text'>
-              <div className="container">
-                {/* Flash message */}
-                { (this.state.flashMessage)
-                  ?  <div className={'alert ' + this.state.flashStyle + ' alert-dismissible fade show mt-5 fixed-top flash'}>
-                        <strong>{this.state.flashMessage}</strong>
-                        <button type="button" className="close" onClick={this.hideFlash}>
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                  : null
-                }
-                <AppModal />
-                {this.props.auth.isAuthenticated 
-                 && <PieChart />
-                }
-                <Switch>
-                  <PrivateRoute exact path="/activities/:activityId" 
-                    component={ActivityPage} 
-                  />
-                  <PrivateRoute path='/settings' component={Settings} />
-                  <Route exact path="/" 
-                    component={this.props.auth.isAuthenticated ? ActivitiesList : Landing} 
-                  />
-                  <Route path="/register" component={Register} />
-                  <Route component={Landing} />
-                </Switch>
-              </div>
+      <Router>
+          <Navbar />
+          {!this.state.loading
+          &&
+          <div className='container-flex app-text'>
+            <div className="container">
+              {/* Flash message */}
+              { (this.state.flashMessage)
+                ?  <div className={'alert ' + this.state.flashStyle + ' alert-dismissible fade show mt-5 fixed-top flash'}>
+                      <strong>{this.state.flashMessage}</strong>
+                      <button type="button" className="close" onClick={this.hideFlash}>
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                : null
+              }
+              <AppModal />
+              {this.props.auth.isAuthenticated 
+                && <PieChart />
+              }
+              <Switch>
+                <PrivateRoute exact path="/activities/:activityId" 
+                  component={ActivityPage} 
+                />
+                <PrivateRoute path='/settings' component={Settings} />
+                <Route exact path="/" 
+                  component={this.props.auth.isAuthenticated ? ActivitiesList : Landing} 
+                />
+                <Route path="/register" component={Register} />
+                <Route component={Landing} />
+              </Switch>
             </div>
-            }
-        </Router>
+          </div>
+          }
+      </Router>
     );
   }
 }
@@ -142,6 +146,7 @@ App.propTypes = {
   resetAddActivity: PropTypes.func.isRequired,
   resetUpdateActivity: PropTypes.func.isRequired,
   resetUpdateUser: PropTypes.func.isRequired,
+  resetNewUserStatus: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -156,6 +161,7 @@ const mapDispatchToProps = {
   resetAddActivity,
   resetUpdateActivity,
   resetUpdateUser,
+  resetNewUserStatus,
   dispatch: (action) => action,
 };
 

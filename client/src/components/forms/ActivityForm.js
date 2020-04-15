@@ -15,14 +15,28 @@ import { addActivity } from '../../actions/activitiesActions';
  *   New activity form, displayed in AppModal
  * ============================================
  */
-const ActivityForm = ({ hideForm, addActivity, userId }) => {
+const ActivityForm = ({ hideForm, addActivity, userId, activities }) => {
   const { value: name, bindProps: bindName } = useInput('');
+  const [nameError, setNameError] = useState('');
   const [goal, setGoal] = useState('');
   const [goalError, setGoalError] = useState('');
 
+  const validateName = () => {
+    let error = '';
+    if (!name) {
+      error = 'Activity must have a name';
+    }
+    else if (activities.some(activity => activity.title.toLowerCase() === name.toLowerCase())) {
+      error = 'Activities must have unique names';
+    }
+    setNameError(error);
+    return !error;
+  }
+
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!goalError) {
+    let valid = validateName();
+    if (valid) {
       const newActivity = {
         title: name,
         goal: goal
@@ -38,7 +52,7 @@ const ActivityForm = ({ hideForm, addActivity, userId }) => {
         Create a new activity
       </ModalHeader>
       <ModalBody>
-        <div className='p-0 p-sm-2 justify-content-center container'>
+        <div id='activity-form' className='p-0 p-sm-2 justify-content-center container'>
           {/* Name */}
           <div className='form-group row mb-1 mb-sm-3 align-items-center'>
             <label className='col-12 col-sm-2 text-left h1 lead text-sm-right' htmlFor='inputName'>
@@ -50,6 +64,9 @@ const ActivityForm = ({ hideForm, addActivity, userId }) => {
                 variant="outlined"
                 size='small'
                 fullWidth
+                error={!!nameError}
+                helperText={nameError}
+                onFocus={() => setNameError('')}
                 {...bindName}
               />
             </div>
@@ -93,11 +110,13 @@ const ActivityForm = ({ hideForm, addActivity, userId }) => {
 ActivityForm.propTypes = {
   userId: PropTypes.string.isRequired,
   hideForm: PropTypes.func.isRequired,
-  addActivity: PropTypes.func.isRequired
+  addActivity: PropTypes.func.isRequired,
+  activities: PropTypes.array.isRequired,
 }
 
 const mapStateToProps = (state) => ({
   userId: state.auth.user.id,
+  activities: state.activities,
 });
 
 const mapDispatchToProps = {

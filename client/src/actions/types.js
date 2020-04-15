@@ -3,6 +3,8 @@ export const GET_ERRORS = "GET_ERRORS";
 export const USER_LOADING = "USER_LOADING";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 export const RESET_AUTH_ERRORS = 'RESET_AUTH_ERRORS';
+export const NEW_USER_SUCCESS = 'NEW_USER_SUCCESS';
+export const RESET_NEW_USER = 'RESET_NEW_USER';
 
 // User types
 export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';

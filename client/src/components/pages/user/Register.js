@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
+import TextField from '@material-ui/core/TextField';
 import { connect } from "react-redux";
 import { registerUser } from "../../../actions/authActions";
 
@@ -34,6 +35,12 @@ class Register extends Component {
     this.setState({ [e.target.id]: e.target.value });
   };
 
+  onFocus = e => {
+    this.setState({ 
+      errors: {...this.state.errors, [e.target.id]: ''}
+    });
+  };
+
   onSubmit = e => {
     e.preventDefault();
 
@@ -55,60 +62,67 @@ class Register extends Component {
         <form className='col-sm-10 col-md-7 col-lg-5 p-2 p-sm-5 mt-sm-2' noValidate onSubmit={this.onSubmit}>
           <h2 className='sr-only'>Login form</h2>
           <div className='login-header'>
-            <h1>Sign up</h1>
+            <h2>Sign up</h2>
           </div>
 
           <div className='form-group'>
-            <input
-                onChange={this.onChange}
-                value={this.state.name}
-                error={errors.name}
-                className='form-control' 
-                id="name"
-                type="text"
-                placeholder='Name'
-            />
-            <span className="error-text">{errors.name}</span>
-          </div>
-
-          <div className='form-group'>
-            <input 
+            <TextField 
+              fullWidth
+              label='Name'
+              id="name"
+              variant='outlined'
+              error={!!errors.name}
+              helperText={errors.name}
+              value={this.state.name}
               onChange={this.onChange}
-              value={this.state.email}
-              error={errors.email}
-              className='form-control' 
-              type='email' 
+              onFocus={this.onFocus}
+            />
+          </div>
+
+          <div className='form-group'>
+            <TextField 
+              fullWidth
+              label='Email'
               id='email'
-              placeholder='Email' 
+              type='email'
+              variant='outlined'
+              error={!!errors.email}
+              helperText={errors.email}
+              value={this.state.email}
+              onChange={this.onChange}
+              onFocus={this.onFocus}
             />
-            <span className="error-text">{errors.email}</span>
           </div>
           <div className='form-group'>
-            <input
-              onChange={this.onChange}
+            <TextField 
+              fullWidth
+              label='Password'
+              id='password'
+              type='password'
+              variant='outlined'
+              error={!!errors.password}
+              helperText={errors.password}
               value={this.state.password}
-              error={errors.password}
-              className='form-control' 
-              id="password"
-              type="password"
-              placeholder='Password'
-            />
-            <span className="error-text">{errors.password}</span>
-          </div>
-          <div className='form-group'>
-            <input
               onChange={this.onChange}
-              value={this.state.password2}
-              error={errors.password2}
-              className='form-control'
-              id="password2"
-              type="password"
-              placeholder='Confirm password'
+              onFocus={this.onFocus}
             />
-            <span className="error-text">{errors.password2}</span>
           </div>
           <div className='form-group'>
-            <button className='btn btn-block' type='submit'>Sign up</button>
+            <TextField 
+              fullWidth
+              label='Confirm password'
+              id='password2'
+              type='password'
+              variant='outlined'
+              error={!!errors.password2}
+              helperText={errors.password2}
+              value={this.state.password2}
+              onChange={this.onChange}
+              onFocus={this.onFocus}
+            />
+          </div>
+          <div className='form-group'>
+            <button className='btn btn-block' type='submit' style={{fontWeight: 500}}>Sign up</button>
           </div>
           <Link className='forgot' to='/'>ALREADY HAVE AN ACCOUNT? <u>CLICK HERE</u> TO LOGIN</Link>
         </form>

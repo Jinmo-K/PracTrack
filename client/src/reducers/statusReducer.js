@@ -23,6 +23,8 @@ import {
   UPDATE_ACTIVITY_SUCCESS,
   UPDATE_ACTIVITY_FAILURE,
   RESET_UPDATE_ACTIVITY,
+  NEW_USER_SUCCESS,
+  RESET_NEW_USER,
 } from '../actions/types';
 
 const LOADING = 'LOADING';
@@ -44,6 +46,7 @@ const initialState = {
   updateLogError: '',
   updateUser: '',
   updateUserError: '',
+  newUser: '',
   alert: true
 }
 
@@ -154,7 +157,13 @@ export default (state = initialState, action) => {
     [RESET_UPDATE_USER]: {
       updateUser: '',
       updateUserError: ''
-    }
+    },
+    [NEW_USER_SUCCESS]: {
+      newUser: SUCCESS
+    },
+    [RESET_NEW_USER]: {
+      newUser: ''
+    },
   }
   return Object.assign({}, state, actionHandlers[action.type]);
 }

@@ -73,8 +73,8 @@ const Settings = ({ user, errors, updateUser, resetAuthErrors, updateUserStatus 
   return (
     <div className='row mt-3 justify-content-center login mx-auto align-items-center'>
       <form className='col-sm-10 col-md-7 col-lg-5 p-2 p-sm-5 mt-sm-2' noValidate onSubmit={onSubmit}>
-        <div className='app-font mb-5'>
-          <h1>User settings</h1>
+        <div className='login-header'>
+          <h2>User settings</h2>
         </div>
 
         {/* Name */}
@@ -166,7 +166,14 @@ const Settings = ({ user, errors, updateUser, resetAuthErrors, updateUserStatus 
         </Collapse>
 
         <div className='form-group'>
-          <button className='btn btn-block' type='submit' disabled={!dirtyFlag}>Save</button>
+          <button 
+            className='btn btn-block' 
+            type='submit' 
+            disabled={!dirtyFlag}
+            style={{fontWeight: 500}}
+          >
+            Save
+          </button>
         </div>
       </form>
     </div>
