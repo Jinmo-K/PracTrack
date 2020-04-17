@@ -73,7 +73,7 @@ const Settings = ({ user, errors, updateUser, resetAuthErrors, updateUserStatus 
   return (
     <div className='row mt-3 justify-content-center login mx-auto align-items-center'>
       <form className='col-sm-10 col-md-7 col-lg-5 p-2 p-sm-5 mt-sm-2' noValidate onSubmit={onSubmit}>
-        <div className='login-header'>
+        <div className='form-header'>
           <h2>User settings</h2>
         </div>
 

@@ -58,7 +58,7 @@ form .btn-info:focus {
 
 /**
  * ==========================================
- *   Login
+ *   Forms
  * ==========================================
  */
 
@@ -66,11 +66,32 @@ form .btn-info:focus {
   color: rgb(235, 98, 98)
 }
 
-.login-header {
+.form-header {
   text-align: center;
-  padding: 0 0 20px;
+  padding-bottom: 20px;
   color: black;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+}
+
+.form-logo {
+  margin: auto;
+  display: block;
+  padding-bottom: 1rem;
+}
+
+@media (min-width: 500px) {
+  .form-logo {
+    margin: unset;
+    display: inline;
+    padding-bottom: 0.5rem;
+    margin-right: 15px;
+  }
+  .login-header {
+    margin-right: 20px;
+  }
+  
+  .signup-header {
+    margin-right: 42px;
+  }
 }
 
 .login form .form-control {
@@ -118,7 +139,6 @@ form .btn-info:focus {
   background-color: rgb(46, 118, 170);
   color: #fff;
 }
-
 
 /**
  * ==========================================
@@ -194,6 +214,13 @@ form .btn-info:focus {
 
 .log-form .MuiFormControl-root {
   width: 100%;
+}
+
+@media (min-width: 576px) {
+  .modal .MuiFormHelperText-root.Mui-error {
+    position: absolute;
+    bottom: -1.2rem;
+  }
 }
 
 
@@ -330,6 +357,7 @@ button.MuiIconButton-root {
   margin-left: auto;
   margin-right: auto;
 }
+
 
 #logTable .MuiFormHelperText-root.Mui-error {
   position: absolute;

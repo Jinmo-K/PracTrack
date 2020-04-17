@@ -63,12 +63,12 @@ class Register extends Component {
 
     return (
       <div className='row justify-content-center login mx-auto'>
-        <form className='col-sm-10 col-md-7 col-lg-5 p-2 mt-sm-2 pt-5' noValidate onSubmit={this.onSubmit}>
+        <form className='col-sm-10 col-md-7 col-lg-5 p-2 pt-sm-5' noValidate onSubmit={this.onSubmit}>
           <h2 className='sr-only'>Login form</h2>
-          <div className='login-header' style={{marginRight: "42px"}}>
+          <div className='form-header signup-header'>
             <h2>
-              <img className="pb-2" src="../../../images/logo-md.png" alt="PracTrack logo"></img>
-              &nbsp;Sign up
+              <img className="form-logo" src="../../../images/logo-md.png" alt="PracTrack logo"></img>
+              Sign up
             </h2>
           </div>
 

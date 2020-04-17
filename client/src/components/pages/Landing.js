@@ -64,12 +64,12 @@ class Landing extends Component {
     const { errors } = this.state;
     return (
       <div className='row justify-content-center login mx-auto'>
-        <form className='col-sm-10 col-md-7 col-lg-5 p-2 mt-sm-2 pt-5' noValidate onSubmit={this.onSubmit}>
+        <form className='col-sm-10 col-md-7 col-lg-5 p-2 pt-sm-5' noValidate onSubmit={this.onSubmit}>
           <h2 className='sr-only'>Login form</h2>
-          <div className='login-header' style={{marginRight: "20px"}}>
+          <div className='form-header login-header'>
             <h2>
-              <img className="pb-2" src="../../../images/logo-md.png" alt="PracTrack logo"></img> 
-              &nbsp;Login to continue
+              <img className="form-logo" src="../../../images/logo-md.png" alt="PracTrack logo"></img> 
+              Login to continue
             </h2>
           </div>
           <div className='form-group'>
