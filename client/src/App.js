@@ -41,6 +41,12 @@ class App extends Component {
           this.props.dispatch({...action, remote: true});
         });
       });
+    // For multi-tab logout
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'jwtToken' && e.oldValue && !e.newValue) {
+          this.props.logoutUser();
+      }
+    });
   }
   
   componentDidUpdate = (prevProps) => { 
