@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ActivityForm /> Should render initial layout given required props 1`] = `
+Array [
+  <div>
+    <ModalHeader
+      charCode={215}
+      closeAriaLabel="Close"
+      tag="h5"
+      toggle={[MockFunction]}
+      wrapTag="div"
+    >
+      Create a new activity
+    </ModalHeader>
+    <ModalBody
+      tag="div"
+    >
+      <div
+        className="p-0 p-sm-2 justify-content-center container"
+        id="activity-form"
+      >
+        <div
+          className="form-group row mb-1 mb-sm-3 align-items-center"
+        >
+          <label
+            className="col-12 col-sm-2 text-left h1 lead text-sm-right"
+            htmlFor="inputName"
+          >
+            Name
+          </label>
+          <div
+            className="col-12 col-sm-10"
+          >
+            <ForwardRef(WithStyles)
+              error={false}
+              fullWidth={true}
+              helperText=""
+              id="inputName"
+              onChange={[Function]}
+              onFocus={[Function]}
+              size="small"
+              value=""
+              variant="outlined"
+            />
+          </div>
+        </div>
+        <div
+          className="form-group row mb-1 mb-sm-3 align-items-center"
+        >
+          <label
+            className="col-12 col-sm-2 text-left h1 lead text-sm-right"
+            htmlFor="inputGoal"
+          >
+            Goal
+          </label>
+          <div
+            className="col-12 col-sm-10"
+          >
+            <ForwardRef(WithStyles)
+              InputProps={
+                Object {
+                  "inputProps": Object {
+                    "min": 0,
+                  },
+                }
+              }
+              error={false}
+              fullWidth={true}
+              helperText=""
+              id="inputGoal"
+              onChange={[Function]}
+              size="small"
+              type="number"
+              value=""
+              variant="outlined"
+            />
+          </div>
+        </div>
+      </div>
+    </ModalBody>
+    <ModalFooter
+      tag="div"
+    >
+      <Button
+        color="secondary"
+        id="activity-form-cancel-btn"
+        onClick={[MockFunction]}
+        tag="button"
+      >
+        Cancel
+      </Button>
+       
+      <Button
+        color="info"
+        disabled={false}
+        id="activity-form-submit-btn"
+        onClick={[Function]}
+        tag="button"
+      >
+        Submit
+      </Button>
+    </ModalFooter>
+  </div>,
+]
+`;

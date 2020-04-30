@@ -11,9 +11,7 @@ import { addActivity } from '../../actions/activitiesActions';
 
 
 /** 
- * ============================================
  *   New activity form, displayed in AppModal
- * ============================================
  */
 const ActivityForm = ({ hideForm, addActivity, userId, activities }) => {
   const { value: name, bindProps: bindName } = useInput('');
@@ -21,6 +19,10 @@ const ActivityForm = ({ hideForm, addActivity, userId, activities }) => {
   const [goal, setGoal] = useState('');
   const [goalError, setGoalError] = useState('');
 
+  /**
+   * Validates name and sets name error if input is empty or activity name already exists
+   * @return {boolean}  True if name is valid
+   */
   const validateName = () => {
     let error = '';
     if (!name) {
@@ -33,6 +35,10 @@ const ActivityForm = ({ hideForm, addActivity, userId, activities }) => {
     return !error;
   }
 
+  /**
+   * Handles submit button click. If name is valid, dispatches functions to add 
+   * the new activity and close the form modal.
+   */ 
   const onSubmit = (e) => {
     e.preventDefault();
     let valid = validateName();
@@ -100,8 +106,8 @@ const ActivityForm = ({ hideForm, addActivity, userId, activities }) => {
         </div>
       </ModalBody>
       <ModalFooter>
-        <Button color="secondary" onClick={hideForm}>Cancel</Button>{' '}
-        <Button color="info" onClick={onSubmit} disabled={!!goalError}>Submit</Button>
+        <Button id='activity-form-cancel-btn' color="secondary" onClick={hideForm}>Cancel</Button>{' '}
+        <Button id='activity-form-submit-btn' color="info" onClick={onSubmit} disabled={!!goalError}>Submit</Button>
       </ModalFooter>
     </div>
   );
@@ -128,3 +134,5 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(ActivityForm);
+
+export { ActivityForm };
