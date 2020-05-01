@@ -13,11 +13,19 @@ const Navbar = ({ auth, logoutUser, history }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [path, setPath] = useState(history.location.pathname);
   const toggleOpen = () => setIsOpen(!isOpen);
+
+  /**
+   * Handles logout button click by calling logoutUser function
+   * @param {React.MouseEvent} e  The mouse-click event 
+   */
   const onLogoutClick = (e) => {
     e.preventDefault();
     logoutUser();
   };
 
+  /**
+   * Closes the (mobile) navbar if it is open and user navigates to a different page
+   */
   useEffect(() => {
     if (history.location.pathname !== path) {
       setPath(history.location.pathname);
@@ -45,7 +53,7 @@ const Navbar = ({ auth, logoutUser, history }) => {
                 </li>
                 <li className='nav-item'>
                   <Link to='/' 
-                        className='nav-link nav-btn pb-0' 
+                        className='nav-link nav-btn pb-0 logout-btn' 
                         onClick={onLogoutClick}
                   >
                     Logout
@@ -67,7 +75,7 @@ const Navbar = ({ auth, logoutUser, history }) => {
           }
         </div>
       </div>
-      {/* Dropdown menu for xs */}
+      {/* Dropdown menu for mobile */}
       <div className='d-block d-sm-none w-100' style={{fontWeight: 'bold'}}> 
         <Collapse in={isOpen} collapsedHeight={0} timeout={200}>
           <Fade in={isOpen} timeout={400}>
@@ -82,7 +90,7 @@ const Navbar = ({ auth, logoutUser, history }) => {
                   <span className="border" style={{maxWidth: '10ch'}}></span>
                   <li className='nav-item'>
                     <Link to='/' 
-                          className='nav-link nav-btn pb-0' 
+                          className='nav-link nav-btn pb-0 logout-btn' 
                           onClick={onLogoutClick}
                     >
                       Logout
@@ -110,13 +118,16 @@ const Navbar = ({ auth, logoutUser, history }) => {
       </div>
     </div>
   );
-
 }
 
 
 Navbar.propTypes = {
+  /** Function that dispatches logout action */
   logoutUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  /** Auth store state */
+  auth: PropTypes.object.isRequired,
+  /** Router history */
+  history: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -127,3 +138,5 @@ export default withRouter(connect(
   mapStateToProps,
   { logoutUser }
 )(Navbar));
+
+export { Navbar };

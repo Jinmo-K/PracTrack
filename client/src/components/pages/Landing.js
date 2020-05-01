@@ -7,9 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import { loginUser, resetAuthErrors } from "../../actions/authActions";
 
 /** 
- * ============================================
  *   Public homepage
- * ============================================
  */
 class Landing extends Component {
   constructor() {
@@ -111,9 +109,13 @@ class Landing extends Component {
 }
 
 Landing.propTypes = {
+  /** Auth store state */
   auth: PropTypes.object.isRequired,
+  /** Dispatches action to login a user */
   loginUser: PropTypes.func.isRequired,
+  /** Dispatches action to reset auth errors */
   resetAuthErrors: PropTypes.func.isRequired,
+  /** Errors store state for auth-related errors */
   errors: PropTypes.object.isRequired
 };
 
@@ -126,3 +128,5 @@ export default connect(
   mapStateToProps,
   { loginUser, resetAuthErrors }
 )(Landing);
+
+export { Landing };

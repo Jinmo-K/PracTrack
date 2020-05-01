@@ -6,7 +6,9 @@ import { openNewLogForm } from '../../actions/formActions';
 import { updateActivity } from '../../actions/activitiesActions';
 import { msToStopwatch } from '../../utils/timeFunctions';
 
-// Stopwatch component 
+/**
+ * The stopwatch component 
+ */
 const Timer = ({ activity:nextActivity, openNewLogForm, updateActivity }) => {
   const [activity, setActivity] = useState({...nextActivity});
   // If an activity is active, calculate duration since it started
@@ -104,8 +106,11 @@ const Timer = ({ activity:nextActivity, openNewLogForm, updateActivity }) => {
 };
 
 Timer.propTypes = {
+  /** Activity for which this timer is bound to */
   activity: PropTypes.object.isRequired,
+  /** Dispatches action for opening modal with new log form */
   openNewLogForm: PropTypes.func.isRequired,
+  /** Dispatches action to update an activity with new values */
   updateActivity: PropTypes.func.isRequired,
 }
 

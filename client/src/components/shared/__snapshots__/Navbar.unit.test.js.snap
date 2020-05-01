@@ -1,0 +1,275 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Navbar /> Should render initial layout correctly for logged in users 1`] = `
+<div
+  className="navbar navbar-light navbar-expand-sm sticky-top p-0"
+>
+  <div
+    className="container"
+  >
+    <a
+      className="navbar-brand d-flex align-items-center p-0 nav-btn"
+      href="/"
+      onClick={[Function]}
+    >
+      <img
+        alt="logo"
+        src="../../../images/logo-sm.png"
+      />
+      <strong
+        className="ml-1 mt-1"
+      >
+        PracTrack
+      </strong>
+    </a>
+    <button
+      className="navbar-toggler"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="navbar-toggler-icon"
+      />
+    </button>
+    <div
+      className="collapse navbar-collapse"
+    >
+      <ul
+        className="navbar-nav ml-auto"
+      >
+        <li
+          className="nav-item"
+        >
+          <a
+            className="nav-link nav-btn pb-0"
+            href="/settings"
+            onClick={[Function]}
+          >
+            <i
+              className="material-icons"
+            >
+              account_circle
+            </i>
+          </a>
+        </li>
+        <li
+          className="nav-item"
+        >
+          <a
+            className="nav-link nav-btn pb-0 logout-btn"
+            href="/"
+            onClick={[Function]}
+          >
+            Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div
+    className="d-block d-sm-none w-100"
+    style={
+      Object {
+        "fontWeight": "bold",
+      }
+    }
+  >
+    <div
+      className="MuiCollapse-container MuiCollapse-hidden"
+      style={
+        Object {
+          "minHeight": "0px",
+        }
+      }
+    >
+      <div
+        className="MuiCollapse-wrapper"
+      >
+        <div
+          className="MuiCollapse-wrapperInner"
+        >
+          <div
+            className="pl-4 pr-2 mb-2"
+            style={
+              Object {
+                "opacity": 0,
+                "visibility": "hidden",
+              }
+            }
+          >
+            <ul
+              className="navbar-nav"
+            >
+              <li
+                className="nav-item align-items-center"
+              >
+                <a
+                  className="nav-link nav-btn pb-0"
+                  href="/settings"
+                  onClick={[Function]}
+                >
+                  Settings
+                </a>
+              </li>
+              <span
+                className="border"
+                style={
+                  Object {
+                    "maxWidth": "10ch",
+                  }
+                }
+              />
+              <li
+                className="nav-item"
+              >
+                <a
+                  className="nav-link nav-btn pb-0 logout-btn"
+                  href="/"
+                  onClick={[Function]}
+                >
+                  Logout
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<Navbar /> Should render initial layout correctly for users that are not logged in 1`] = `
+<div
+  className="navbar navbar-light navbar-expand-sm sticky-top p-0"
+>
+  <div
+    className="container"
+  >
+    <a
+      className="navbar-brand d-flex align-items-center p-0 nav-btn"
+      href="/"
+      onClick={[Function]}
+    >
+      <img
+        alt="logo"
+        src="../../../images/logo-sm.png"
+      />
+      <strong
+        className="ml-1 mt-1"
+      >
+        PracTrack
+      </strong>
+    </a>
+    <button
+      className="navbar-toggler"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="navbar-toggler-icon"
+      />
+    </button>
+    <div
+      className="collapse navbar-collapse"
+    >
+      <ul
+        className="navbar-nav ml-auto"
+      >
+        <li
+          className="nav-item"
+        >
+          <a
+            className="nav-link nav-btn pb-0"
+            href="/"
+            onClick={[Function]}
+          >
+            Login
+          </a>
+        </li>
+        <li
+          className="nav-item"
+        >
+          <a
+            className="nav-link nav-btn pb-0"
+            href="/register"
+            onClick={[Function]}
+          >
+            Signup
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div
+    className="d-block d-sm-none w-100"
+    style={
+      Object {
+        "fontWeight": "bold",
+      }
+    }
+  >
+    <div
+      className="MuiCollapse-container MuiCollapse-hidden"
+      style={
+        Object {
+          "minHeight": "0px",
+        }
+      }
+    >
+      <div
+        className="MuiCollapse-wrapper"
+      >
+        <div
+          className="MuiCollapse-wrapperInner"
+        >
+          <div
+            className="pl-4 pr-2 mb-2"
+            style={
+              Object {
+                "opacity": 0,
+                "visibility": "hidden",
+              }
+            }
+          >
+            <ul
+              className="navbar-nav"
+            >
+              <li
+                className="nav-item align-items-center"
+              >
+                <a
+                  className="nav-link nav-btn pb-0"
+                  href="/"
+                  onClick={[Function]}
+                >
+                  Login
+                </a>
+              </li>
+              <span
+                className="border"
+                style={
+                  Object {
+                    "maxWidth": "10ch",
+                  }
+                }
+              />
+              <li
+                className="nav-item"
+              >
+                <a
+                  className="nav-link nav-btn pb-0"
+                  href="/register"
+                  onClick={[Function]}
+                >
+                  Signup
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

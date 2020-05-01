@@ -1,0 +1,133 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ProgressBar /> should render correctly when current progress is 0 and text is hidden 1`] = `
+<div>
+  <div
+    className="progress border bg-light mb-2 mx-auto"
+  >
+    <div
+      aria-valuemax="100"
+      aria-valuemin="0"
+      aria-valuenow={0}
+      className="progress-bar bg-success progress-bar-striped-custom"
+      role="progressbar"
+      style={
+        Object {
+          "width": "0%",
+        }
+      }
+    />
+  </div>
+</div>
+`;
+
+exports[`<ProgressBar /> should render correctly when current progress is 0 and text is shown 1`] = `
+<div>
+  <div
+    className="progress border bg-light mb-2 mx-auto"
+  >
+    <div
+      aria-valuemax="100"
+      aria-valuemin="0"
+      aria-valuenow={0}
+      className="progress-bar bg-success progress-bar-striped-custom"
+      role="progressbar"
+      style={
+        Object {
+          "width": "0%",
+        }
+      }
+    >
+      0%
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<ProgressBar /> should render correctly when goal has been achieved and text is hidden 1`] = `
+<div>
+  <div
+    className="progress border bg-light mb-2 mx-auto mx-sm-0"
+  >
+    <div
+      aria-valuemax="100"
+      aria-valuemin="0"
+      aria-valuenow={100}
+      className="progress-bar bg-success progress-bar-striped-custom"
+      role="progressbar"
+      style={
+        Object {
+          "width": "100%",
+        }
+      }
+    />
+  </div>
+</div>
+`;
+
+exports[`<ProgressBar /> should render correctly when goal has been achieved and text is shown 1`] = `
+<div>
+  <div
+    className="progress border bg-light mb-2 mx-auto mx-sm-0"
+  >
+    <div
+      aria-valuemax="100"
+      aria-valuemin="0"
+      aria-valuenow={100}
+      className="progress-bar bg-success progress-bar-striped-custom"
+      role="progressbar"
+      style={
+        Object {
+          "width": "100%",
+        }
+      }
+    >
+      100%
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<ProgressBar /> should render correctly when goal has not been achieved and text is hidden 1`] = `
+<div>
+  <div
+    className="progress border bg-light mb-2 mx-auto mx-sm-0"
+  >
+    <div
+      aria-valuemax="100"
+      aria-valuemin="0"
+      aria-valuenow={10}
+      className="progress-bar bg-success progress-bar-striped-custom"
+      role="progressbar"
+      style={
+        Object {
+          "width": "10%",
+        }
+      }
+    />
+  </div>
+</div>
+`;
+
+exports[`<ProgressBar /> should render correctly when goal has not been achieved and text is shown 1`] = `
+<div>
+  <div
+    className="progress border bg-light mb-2 mx-auto mx-sm-0"
+  >
+    <div
+      aria-valuemax="100"
+      aria-valuemin="0"
+      aria-valuenow={10}
+      className="progress-bar bg-success progress-bar-striped-custom"
+      role="progressbar"
+      style={
+        Object {
+          "width": "10%",
+        }
+      }
+    >
+      10%
+    </div>
+  </div>
+</div>
+`;

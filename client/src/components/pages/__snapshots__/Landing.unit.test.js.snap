@@ -1,0 +1,151 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Landing /> Renders initial layout when user is not logged in 1`] = `
+<div
+  className="row justify-content-center login mx-auto"
+>
+  <form
+    className="col-sm-10 col-md-7 col-lg-5 p-2 pt-sm-5"
+    noValidate={true}
+    onSubmit={[Function]}
+  >
+    <h2
+      className="sr-only"
+    >
+      Login form
+    </h2>
+    <div
+      className="form-header login-header"
+    >
+      <h2>
+        <img
+          alt="PracTrack logo"
+          className="form-logo"
+          src="../../../images/logo-md.png"
+        />
+        Login to continue
+      </h2>
+    </div>
+    <div
+      className="form-group"
+    >
+      <div
+        className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+      >
+        <label
+          className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
+          data-shrink={false}
+          htmlFor="email"
+          id="email-label"
+        >
+          Email
+        </label>
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input"
+            disabled={false}
+            id="email"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+            type="email"
+            value=""
+          />
+          <fieldset
+            aria-hidden={true}
+            className="PrivateNotchedOutline-root-59 MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="PrivateNotchedOutline-legendLabelled-61"
+            >
+              <span>
+                Email
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+    <div
+      className="form-group"
+    >
+      <div
+        className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+      >
+        <label
+          className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
+          data-shrink={false}
+          htmlFor="password"
+          id="password-label"
+        >
+          Password
+        </label>
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input"
+            disabled={false}
+            id="password"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+            type="password"
+            value=""
+          />
+          <fieldset
+            aria-hidden={true}
+            className="PrivateNotchedOutline-root-59 MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="PrivateNotchedOutline-legendLabelled-61"
+            >
+              <span>
+                Password
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+    <div
+      className="form-group"
+    >
+      <button
+        className="btn btn-block"
+        style={
+          Object {
+            "fontWeight": 500,
+          }
+        }
+        type="submit"
+      >
+        Login
+      </button>
+    </div>
+    <a
+      className="forgot"
+      href="/register"
+      onClick={[Function]}
+    >
+      DON'T HAVE AN ACCOUNT? 
+      <u>
+        CLICK HERE
+      </u>
+       TO SIGN UP
+    </a>
+  </form>
+</div>
+`;
