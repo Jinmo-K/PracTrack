@@ -11,9 +11,7 @@ import { updateUser, resetAuthErrors } from '../../../actions/authActions';
 
 
 /** 
- * ============================================
- *   Edit user information 
- * ============================================
+ *   Page where users can edit account related details
  */
 const Settings = ({ user, errors, updateUser, resetAuthErrors, updateUserStatus }) => {
   const {value:name, bindProps:bindName, setValue:setName} = useInput(user.name);
@@ -35,8 +33,8 @@ const Settings = ({ user, errors, updateUser, resetAuthErrors, updateUserStatus 
     updateUser(user.id, updateValues)
   }
 
-  const toggleChangePw = (e) => {
-    e.preventDefault();
+  /** For hiding/showing new password fields  */
+  const toggleChangePw = () => {
     if (isChangingPw) {
       setPw('');
       setPw2('');
@@ -54,6 +52,7 @@ const Settings = ({ user, errors, updateUser, resetAuthErrors, updateUserStatus 
     }
   }, [user, name, email, password, password2])
 
+  // Resets the form using newly updated values. On unmount, resets all auth-related errors
   useEffect(() => {
     if (updateUserStatus === 'SUCCESS') {
       setName(user.name);
@@ -80,13 +79,14 @@ const Settings = ({ user, errors, updateUser, resetAuthErrors, updateUserStatus 
         {/* Name */}
         <div className='form-group'>
           <TextField 
+            id='name'
             fullWidth
             label='Name'
             variant='outlined'
             error={!!errors.name}
             {...bindName} 
           />
-          <span className="error-text">
+          <span id='name-error' className="error-text">
             {errors.name}
           </span>
         </div>
@@ -94,6 +94,7 @@ const Settings = ({ user, errors, updateUser, resetAuthErrors, updateUserStatus 
         {/* Email */}
         <div className='form-group'>
           <TextField 
+            id='email'
             fullWidth
             label='Email'
             variant='outlined'
@@ -101,7 +102,7 @@ const Settings = ({ user, errors, updateUser, resetAuthErrors, updateUserStatus 
             error={!!errors.email}
             {...bindEmail} 
           />
-          <span className="error-text">
+          <span id='email-error' className="error-text">
             {errors.email}
           </span>
         </div>
@@ -109,6 +110,7 @@ const Settings = ({ user, errors, updateUser, resetAuthErrors, updateUserStatus 
         {/* Current password */}
         <div className='form-group'>
           <TextField 
+            id='pw'
             fullWidth
             label='Password'
             variant='outlined'
@@ -116,13 +118,14 @@ const Settings = ({ user, errors, updateUser, resetAuthErrors, updateUserStatus 
             error={!!errors.currPassword}
             {...bindCurrPw} 
           />
-          <span className="error-text">
+          <span id='pw-error' className="error-text">
             {errors.currPassword}
           </span>
         </div>
 
         {/* Change password button */}
         <button onClick={toggleChangePw} 
+                id='change-pw-btn'
                 type='button'
                 className="btn btn-link pt-0 mb-2 forgot"
                 style={{fontSize: '16px'}}
@@ -130,12 +133,13 @@ const Settings = ({ user, errors, updateUser, resetAuthErrors, updateUserStatus 
           <u>{isChangingPw ? 'Cancel' : 'Change password'}</u>
         </button>
 
-        <Collapse in={isChangingPw} collapsedHeight={0} timeout={200}>
-          <Fade in={isChangingPw} timeout={400}>
+        <Collapse id='collapse' in={isChangingPw} collapsedHeight={0} timeout={200}>
+          <Fade id='fade' in={isChangingPw} timeout={400}>
             <div>
               {/* New password */}
               <div className='form-group'>
                 <TextField 
+                  id='new-pw'
                   fullWidth
                   label='New password'
                   variant='outlined'
@@ -143,13 +147,14 @@ const Settings = ({ user, errors, updateUser, resetAuthErrors, updateUserStatus 
                   error={!!errors.password}
                   {...bindNewPw} 
                 />
-                <span className="error-text">
+                <span id='new-pw-error' className="error-text">
                   {errors.password}
                 </span>
               </div>
               {/* Confirm new password */}
               <div className='form-group'>
                 <TextField 
+                  id='confirm-pw'
                   fullWidth
                   label='Confirm new password'
                   variant='outlined'
@@ -157,7 +162,7 @@ const Settings = ({ user, errors, updateUser, resetAuthErrors, updateUserStatus 
                   error={!!errors.password2}
                   {...bindNewPw2} 
                 />
-                <span className="error-text">
+                <span id='confirm-pw-error' className="error-text">
                   {errors.password2}
                 </span>
               </div>
@@ -182,10 +187,15 @@ const Settings = ({ user, errors, updateUser, resetAuthErrors, updateUserStatus 
 
 
 Settings.propTypes = {
+  /** User object held in auth store state */
   user: PropTypes.object.isRequired,
+  /** Auth-related errors store state */
   errors: PropTypes.object.isRequired,
+  /** Dispatch function for updating a user with the given values */
   updateUser: PropTypes.func.isRequired,
+  /** Dispatches action to reset auth errors */
   resetAuthErrors: PropTypes.func.isRequired,
+  /** Indicates whether updating user has succeeded */
   updateUserStatus: PropTypes.string.isRequired,
 }
 
@@ -204,3 +214,5 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Settings);
+
+export { Settings };

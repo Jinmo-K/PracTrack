@@ -1,0 +1,335 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Settings /> Should render initial layout given required props 1`] = `
+<div
+  className="row mt-3 justify-content-center login mx-auto align-items-center"
+>
+  <form
+    className="col-sm-10 col-md-7 col-lg-5 p-2 p-sm-5 mt-sm-2"
+    noValidate={true}
+    onSubmit={[Function]}
+  >
+    <div
+      className="form-header"
+    >
+      <h2>
+        User settings
+      </h2>
+    </div>
+    <div
+      className="form-group"
+    >
+      <div
+        className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+      >
+        <label
+          className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+          data-shrink={true}
+          htmlFor="name"
+          id="name-label"
+        >
+          Name
+        </label>
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input"
+            disabled={false}
+            id="name"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+            type="text"
+            value="Test User"
+          />
+          <fieldset
+            aria-hidden={true}
+            className="PrivateNotchedOutline-root-59 MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="PrivateNotchedOutline-legendLabelled-61 PrivateNotchedOutline-legendNotched-62"
+            >
+              <span>
+                Name
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <span
+        className="error-text"
+        id="name-error"
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <div
+        className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+      >
+        <label
+          className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+          data-shrink={true}
+          htmlFor="email"
+          id="email-label"
+        >
+          Email
+        </label>
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input"
+            disabled={false}
+            id="email"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+            type="email"
+            value="test@test.com"
+          />
+          <fieldset
+            aria-hidden={true}
+            className="PrivateNotchedOutline-root-59 MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="PrivateNotchedOutline-legendLabelled-61 PrivateNotchedOutline-legendNotched-62"
+            >
+              <span>
+                Email
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <span
+        className="error-text"
+        id="email-error"
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <div
+        className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+      >
+        <label
+          className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
+          data-shrink={false}
+          htmlFor="pw"
+          id="pw-label"
+        >
+          Password
+        </label>
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input"
+            disabled={false}
+            id="pw"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+            type="password"
+            value=""
+          />
+          <fieldset
+            aria-hidden={true}
+            className="PrivateNotchedOutline-root-59 MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="PrivateNotchedOutline-legendLabelled-61"
+            >
+              <span>
+                Password
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <span
+        className="error-text"
+        id="pw-error"
+      />
+    </div>
+    <button
+      className="btn btn-link pt-0 mb-2 forgot"
+      id="change-pw-btn"
+      onClick={[Function]}
+      style={
+        Object {
+          "fontSize": "16px",
+        }
+      }
+      type="button"
+    >
+      <u>
+        Change password
+      </u>
+    </button>
+    <div
+      className="MuiCollapse-container MuiCollapse-hidden"
+      id="collapse"
+      style={
+        Object {
+          "minHeight": "0px",
+        }
+      }
+    >
+      <div
+        className="MuiCollapse-wrapper"
+      >
+        <div
+          className="MuiCollapse-wrapperInner"
+        >
+          <div
+            id="fade"
+            style={
+              Object {
+                "opacity": 0,
+                "visibility": "hidden",
+              }
+            }
+          >
+            <div
+              className="form-group"
+            >
+              <div
+                className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+              >
+                <label
+                  className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
+                  data-shrink={false}
+                  htmlFor="new-pw"
+                  id="new-pw-label"
+                >
+                  New password
+                </label>
+                <div
+                  className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+                  onClick={[Function]}
+                >
+                  <input
+                    aria-invalid={false}
+                    autoFocus={false}
+                    className="MuiInputBase-input MuiOutlinedInput-input"
+                    disabled={false}
+                    id="new-pw"
+                    onAnimationStart={[Function]}
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    required={false}
+                    type="password"
+                    value=""
+                  />
+                  <fieldset
+                    aria-hidden={true}
+                    className="PrivateNotchedOutline-root-59 MuiOutlinedInput-notchedOutline"
+                  >
+                    <legend
+                      className="PrivateNotchedOutline-legendLabelled-61"
+                    >
+                      <span>
+                        New password
+                      </span>
+                    </legend>
+                  </fieldset>
+                </div>
+              </div>
+              <span
+                className="error-text"
+                id="new-pw-error"
+              />
+            </div>
+            <div
+              className="form-group"
+            >
+              <div
+                className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+              >
+                <label
+                  className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
+                  data-shrink={false}
+                  htmlFor="confirm-pw"
+                  id="confirm-pw-label"
+                >
+                  Confirm new password
+                </label>
+                <div
+                  className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+                  onClick={[Function]}
+                >
+                  <input
+                    aria-invalid={false}
+                    autoFocus={false}
+                    className="MuiInputBase-input MuiOutlinedInput-input"
+                    disabled={false}
+                    id="confirm-pw"
+                    onAnimationStart={[Function]}
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    required={false}
+                    type="password"
+                    value=""
+                  />
+                  <fieldset
+                    aria-hidden={true}
+                    className="PrivateNotchedOutline-root-59 MuiOutlinedInput-notchedOutline"
+                  >
+                    <legend
+                      className="PrivateNotchedOutline-legendLabelled-61"
+                    >
+                      <span>
+                        Confirm new password
+                      </span>
+                    </legend>
+                  </fieldset>
+                </div>
+              </div>
+              <span
+                className="error-text"
+                id="confirm-pw-error"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="form-group"
+    >
+      <button
+        className="btn btn-block"
+        disabled={true}
+        style={
+          Object {
+            "fontWeight": 500,
+          }
+        }
+        type="submit"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</div>
+`;
