@@ -8,6 +8,8 @@ const ACTIVITIES_URL = '/api/activities/';
 const USER_ACTIVITY_LOGS_URL = (userId, activityId) => '/api/users/' + userId + '/activities/' + activityId + '/logs';
 const ACTIVITY_LOGS_URL = (activityId) => '/api/activities/' + activityId + '/logs/';
 
+axios.defaults.timeout = 5000;
+
 const apiClient = {
   // Activities
   addActivity(userId, activity) {

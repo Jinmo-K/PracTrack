@@ -129,7 +129,12 @@ export function updateActivity(activityId, values) {
         }
       })
       .catch(err => {
-        dispatch(updateActivityFailure(err.response.data.message))
+        if (err.response && err.response.data && err.response.data.message) {
+          dispatch(updateActivityFailure(err.response.data.message))
+        }
+        else{
+          dispatch(updateActivityFailure('Something went wrong. Please try again.'));
+        }
       });
   }
 };

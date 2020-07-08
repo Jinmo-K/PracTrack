@@ -1,8 +1,8 @@
 import axios from "axios";
 import { setAuthToken } from "../utils/authHelpers";
-import { 
-  GET_ERRORS, 
-  SET_CURRENT_USER, 
+import {
+  GET_ERRORS,
+  SET_CURRENT_USER,
   USER_LOADING,
   UPDATE_USER_SUCCESS,
   RESET_AUTH_ERRORS,
@@ -117,8 +117,8 @@ export const resetUpdateUser = () => (dispatch) => {
 };
 
 /**
- * Remove specific auth errors 
- * @param {Array.<string>} values the keys to be removed 
+ * Remove specific auth errors
+ * @param {Array.<string>} values the keys to be removed
  */
 export const resetAuthErrors = (values) => (dispatch) => {
   dispatch({
