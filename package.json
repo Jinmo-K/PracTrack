@@ -11,7 +11,6 @@
         "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
         "test": "cd server && export NODE_ENV=test && mocha test/int --exit",
         "test:int": "cd server && export NODE_ENV=test && mocha test/int",
-        "test:unit": "cd server && export NODE_ENV=test && mocha test/unit",
         "coverage": "nyc npm run test"
     },
     "author": "",

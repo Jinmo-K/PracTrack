@@ -8,7 +8,7 @@ Web app for users to log time spent practising and/or working.
 - Integration testing of the REST API using Mocha, Chai
 - Frontend testing with Jest/Enzyme
 - Other frameworks used: Bootstrap, reactstrap, Material-UI, material-table
-- CI/CD with CircleCI
+- CI/CD with Buddy
   
 Current progress at https://practrack.herokuapp.com/  
 
