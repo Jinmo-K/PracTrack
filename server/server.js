@@ -11,6 +11,7 @@ const passport = require("passport");
 require("./middleware/passport")(passport);
 const port = process.env.PORT || 5000;
 const path = require('path');
+const compression = require('compression');
 // DB Config
 const db = process.env['mongoURI_' + process.env.NODE_ENV];
 
@@ -49,11 +50,11 @@ io.on('connection', socket => {
   })
 });
 
-// Bodyparser middleware
+// Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(compression());
 app.use(cors());
-// Passport middleware
 app.use(passport.initialize());
 
 // Routes
@@ -74,7 +75,7 @@ app.use(function (err, req, res, next) {
 })
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/build')));
+  app.use(express.static(path.join(__dirname, '../client/build', {'maxage': '7d'})));
 
   app.get('*', function(req, res) {
     res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
