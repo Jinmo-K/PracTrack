@@ -27,7 +27,6 @@ const Timer = ({ activity:nextActivity, openNewLogForm, updateActivity }) => {
 
   const stop = () => {
     let endTime = Date.now();
-    let startTime = Date.parse(activity.start);
     let log_data = {
       activity,
       startTime,
